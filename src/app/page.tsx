@@ -40,7 +40,7 @@ export default function VisitorHome() {
         className="relative text-center py-24 px-4 flex flex-col items-center justify-center bg-cover text-[#e0f2f1] bg-center"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1529070538774-1843cb3265df')",
+            "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://img.freepik.com/free-photo/programming-background-with-person-working-with-codes-computer_23-2150010125.jpg?semt=ais_hybrid&w=740&q=80')",
         }}
       >
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
