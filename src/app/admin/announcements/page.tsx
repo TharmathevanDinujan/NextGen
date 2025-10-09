@@ -217,7 +217,7 @@ export default function Announcements() {
         {/* Modal */}
         {modalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-            <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-lg">
+            <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-lg text-[#000]">
               <h2 className="text-xl font-bold text-[#004d40] mb-4">
                 {editingId ? "Edit Announcement" : "New Announcement"}
               </h2>
