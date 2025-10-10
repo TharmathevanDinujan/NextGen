@@ -41,8 +41,15 @@ export default function StudentProfile() {
   const [studentIdStatus, setStudentIdStatus] = useState<{message: string, color: string}>({ message: "", color: "" });
   const [checkingId, setCheckingId] = useState(false);
 
-  // Load logged-in student email
-  const loggedEmail = localStorage.getItem("loggedStudentEmail") || "";
+  const [loggedEmail, setLoggedEmail] = useState("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const email = localStorage.getItem("loggedStudentEmail") || "";
+      setLoggedEmail(email);
+    }
+  }, []);
+  
 
   useEffect(() => {
     if (!loggedEmail) {
