@@ -163,7 +163,7 @@ export default function VisitorHome() {
       <footer className="bg-[#004d40] text-[#e0f2f1] text-center py-3">
         <p>&copy; 2025 NextGen Institute. All Rights Reserved.</p>
         <div className="mt-1">
-          <Link href="/privacy-policy" className="hover:underline mx-1">Privacy Policy</Link> | <Link href="/terms" className="hover:underline mx-1">Terms & Conditions</Link>
+          <Link href="visitor/privacy-policy" className="hover:underline mx-1">Privacy Policy</Link> | <Link href="visitor/terms" className="hover:underline mx-1">Terms & Conditions</Link>
         </div>
       </footer>
 

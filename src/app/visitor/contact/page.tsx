@@ -164,7 +164,7 @@ export default function ContactPage() {
                 <div className="bg-white p-5 rounded-xl shadow-lg">
                   <h3 className="text-teal-600 font-semibold mb-2">Email</h3>
                   <p><a href="mailto:info@NextGen.lk" className="text-teal-700 hover:underline">info@NextGen.lk</a></p>
-                  <p><a href="mailto:tharmathevandnujan11@gmail.com" className="text-teal-700 hover:underline">tharmathevandnujan11@gmail.com</a></p>
+                  <p><a href="mailto:tharmathevandinujan11@gmail.com" className="text-teal-700 hover:underline">tharmathevandinujan11@gmail.com</a></p>
                 </div>
 
                 <div className="bg-white p-5 rounded-xl shadow-lg">

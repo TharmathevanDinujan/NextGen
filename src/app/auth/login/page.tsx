@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
@@ -10,6 +10,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import VisitorHeader from "../../../../components/VisitorHeader";
+import { useRouter } from "next/navigation";
 
 // Firebase Config
 const firebaseConfig = {
@@ -26,6 +27,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export default function Login() {
+  const router = useRouter();
   const [role, setRole] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,6 +37,19 @@ export default function Login() {
     redirect?: string;
   } | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Prevent user from going back to login page
+  useEffect(() => {
+    window.history.pushState(null, "", window.location.href);
+    const handleBackButton = (event: PopStateEvent) => {
+      event.preventDefault();
+      router.replace("/"); // Redirect to home page
+    };
+    window.addEventListener("popstate", handleBackButton);
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [router]);
 
   const showPopup = (title: string, message: string, redirect?: string) => {
     setPopup({ title, message, redirect });
@@ -52,12 +67,12 @@ export default function Login() {
     e.preventDefault();
 
     if (!role) {
-      showPopup("Error", "⚠️ Please select your account type first!");
+      showPopup("Error", "Please select your account type first!");
       return;
     }
 
     if (!email || !password) {
-      showPopup("Error", "⚠️ Please enter both email and password!");
+      showPopup("Error", "Please enter both email and password!");
       return;
     }
 
@@ -69,7 +84,7 @@ export default function Login() {
         if (email === "admin@gmail.com" && password === "admin") {
           showPopup("Welcome Admin", "Login successful!", "/admin/dashboard");
         } else {
-          showPopup("Error", "❌ Invalid admin credentials!");
+          showPopup("Error", "Invalid admin credentials!");
         }
         setLoading(false);
         return;
@@ -86,7 +101,7 @@ export default function Login() {
       const snapshot = await getDocs(q);
 
       if (snapshot.empty) {
-        showPopup("Error", "❌ Invalid credentials!");
+        showPopup("Error", "Invalid credentials!");
       } else {
         const userData = snapshot.docs[0].data();
         const name = (userData.fullname || userData.name || "User") as string;
@@ -97,20 +112,20 @@ export default function Login() {
           showPopup(
             `Welcome ${name}`,
             "Login successful!",
-            "/student/my-courses"
+            "/student/courses"
           );
         } else {
           localStorage.setItem("instructorDocId", snapshot.docs[0].id);
           showPopup(
             `Welcome ${name}`,
             "Login successful!",
-            "/instructor/instructor-dashboard"
+            "/instructor/dashboard"
           );
         }
       }
     } catch (error) {
       console.error(error);
-      showPopup("Error", "⚠️ Something went wrong. Please try again!");
+      showPopup("Error", "Something went wrong. Please try again!");
     }
 
     setLoading(false);
@@ -129,20 +144,31 @@ export default function Login() {
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex justify-center items-center px-4 bg-gradient-to-br from-teal-50 to-teal-100">
-        <div className="bg-gradient-to-br from-teal-700 to-teal-900 text-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md">
+      <div className="flex-1 flex justify-center items-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-teal-50 to-teal-100">
+        <div className="bg-gradient-to-br from-teal-700 to-teal-900 text-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md m-4 sm:m-6">
           <h2 className="text-4xl font-bold mb-2 text-center">Welcome Back</h2>
           <p className="text-center mb-6 text-teal-100 text-xl">Choose Account Type</p>
 
           {/* Role Selection */}
           <div className="flex justify-center gap-2 sm:gap-3 mb-6 overflow-x-auto md:overflow-x-visible">
-            {[  
+            {[
               {
                 id: "student",
                 label: "Student",
                 icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 sm:w-10 sm:h-10 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0v7m0 0l9-5m-9 5l-9-5" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-8 h-8 sm:w-10 sm:h-10 mb-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 14l9-5-9-5-9 5 9 5zm0 0v7m0 0l9-5m-9 5l-9-5"
+                    />
                   </svg>
                 ),
               },
@@ -150,8 +176,19 @@ export default function Login() {
                 id: "instructor",
                 label: "Instructor",
                 icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 sm:w-10 sm:h-10 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6l4 2m4 4H4m16 0v-4a4 4 0 00-4-4H8a4 4 0 00-4 4v4" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-8 h-8 sm:w-10 sm:h-10 mb-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 6v6l4 2m4 4H4m16 0v-4a4 4 0 00-4-4H8a4 4 0 00-4 4v4"
+                    />
                   </svg>
                 ),
               },
@@ -159,8 +196,19 @@ export default function Login() {
                 id: "admin",
                 label: "Admin",
                 icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 sm:w-10 sm:h-10 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 2a5 5 0 015 5v5h-1V7a4 4 0 10-8 0v5H7V7a5 5 0 015-5zM4 20v-2a4 4 0 014-4h8a4 4 0 014 4v2" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-8 h-8 sm:w-10 sm:h-10 mb-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 2a5 5 0 015 5v5h-1V7a4 4 0 10-8 0v5H7V7a5 5 0 015-5zM4 20v-2a4 4 0 014-4h8a4 4 0 014 4v2"
+                    />
                   </svg>
                 ),
               },
@@ -170,7 +218,9 @@ export default function Login() {
                 type="button"
                 onClick={() => handleRoleSelect(r.id)}
                 className={`flex flex-col items-center min-w-[75px] sm:min-w-[90px] p-3 rounded-xl border-2 transition transform hover:scale-105 ${
-                  role === r.id ? "border-white bg-white/10" : "border-transparent hover:border-teal-200"
+                  role === r.id
+                    ? "border-white bg-white/10"
+                    : "border-transparent hover:border-teal-200"
                 }`}
               >
                 {r.icon}
@@ -183,7 +233,7 @@ export default function Login() {
           {role && (
             <div className="text-center mb-4 animate-fadeIn text-teal-100">
               <p className="font-semibold text-lg">
-                👋 Welcome {role.charAt(0).toUpperCase() + role.slice(1)}!
+                Welcome {role.charAt(0).toUpperCase() + role.slice(1)}!
               </p>
             </div>
           )}
@@ -273,6 +323,7 @@ export default function Login() {
           }
         `}</style>
       </div>
+
       <footer className="bg-teal-900 text-teal-100 text-center py-4 mt-auto">
         &copy; 2025 NextGen Institute. All Rights Reserved.
       </footer>
