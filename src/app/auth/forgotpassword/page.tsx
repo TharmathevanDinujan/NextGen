@@ -106,9 +106,9 @@ export default function ForgotPassword() {
       console.error("EmailJS error:", err);
       let message = "Error sending email. Please try again.";
       if (err && typeof err === "object") {
-        // @ts-expect-error
+        // @ts-expect-error: err object may have text property
         if (err.text) message = `Error sending email: ${err.text}`;
-        // @ts-expect-error
+        // @ts-expect-error: err object may have message property
         else if (err.message) message = `Error sending email: ${err.message}`;
       }
       setStatus(message);
