@@ -73,7 +73,7 @@ export default function AnnouncementsPage() {
     return "-";
   };
 
-  // Number of skeleton cards to display while loading
+  // Number of skeleton cards to display while loadine
   const skeletonCount = 4;
 
   return (
