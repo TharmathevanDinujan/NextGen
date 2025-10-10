@@ -52,11 +52,15 @@ export default function StudentProfile() {
   
 
   useEffect(() => {
+    // Wait until loggedEmail is actually loaded from localStorage
+    if (loggedEmail === "") return;
+  
     if (!loggedEmail) {
       alert("No student logged in!");
       window.location.href = "/auth/login";
       return;
     }
+  
     const loadProfile = async () => {
       try {
         const snapshot = await db
@@ -87,8 +91,10 @@ export default function StudentProfile() {
         setLoading(false);
       }
     };
+  
     loadProfile();
   }, [loggedEmail]);
+  
 
   // Handle input changes
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
