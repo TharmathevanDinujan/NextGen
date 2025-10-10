@@ -106,9 +106,9 @@ export default function ForgotPassword() {
       console.error("EmailJS error:", err);
       let message = "Error sending email. Please try again.";
       if (err && typeof err === "object") {
-        // @ts-ignore
+        // @ts-expect-error
         if (err.text) message = `Error sending email: ${err.text}`;
-        // @ts-ignore
+        // @ts-expect-error
         else if (err.message) message = `Error sending email: ${err.message}`;
       }
       setStatus(message);
@@ -193,7 +193,7 @@ export default function ForgotPassword() {
     setLoading(false);
   };
 
-  // If password reset is complete, don't show the form again
+  // ✅ Only show success message after password reset
   if (passwordResetComplete) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300 p-4">
@@ -222,7 +222,7 @@ export default function ForgotPassword() {
         >
           {/* Email Input */}
           <div>
-            <label className="block text-sm font-medium text-[#000] text-gray-700">Email</label>
+            <label className="block text-sm font-medium text-[#000] ">Email</label>
             <input
               type="email"
               placeholder="Enter your email"
