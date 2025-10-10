@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import VisitorHeader from "../../components/VisitorHeader";
 import Image from "next/image";
 import Link from "next/link";
+import { FaFacebook, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 
 export default function VisitorHome() {
   const courses = [
@@ -17,9 +18,8 @@ export default function VisitorHome() {
     { src: "/images/uiux.webp", title: "UI/UX Design", desc: "Learn to design engaging and user-friendly digital interfaces." },
     { src: "/images/mobileapp.webp", title: "Mobile App Development", desc: "Create Android and iOS apps using Flutter, React Native, and Kotlin." },
   ];
-  
-  const sliderCourses = [...courses, ...courses];
 
+  const sliderCourses = [...courses, ...courses];
   const [stats, setStats] = useState({ students: 0, instructors: 0, years: 0 });
   const counterRef = useRef<HTMLDivElement>(null);
   const [started, setStarted] = useState(false);
@@ -58,15 +58,12 @@ export default function VisitorHome() {
     return () => observer.disconnect();
   }, [started]);
 
-
-
   const testimonials = [
     { text: `"NextGen transformed my career. The practical sessions helped me land my first job."`, name: "Mr.Dinujan", role: "DevOps Graduate, 2022" },
-    { text: `"The instructors are knowledgeable and provided excellent hands-on training in software and web development. I gained real technical skills."`, name: "Mrs.Thadshika",role: "Data Analyst" },
+    { text: `"The instructors are knowledgeable and provided excellent hands-on training in software and web development. I gained real technical skills."`, name: "Mrs.Thadshika", role: "Data Analyst" },
     { text: `"The practical IT sessions were thorough and helped me build confidence in handling real-world coding and computing projects."`, name: "Mr.Sivan", role: "Computer Science Graduate, 2024" },
   ];
 
-  // Scroll animation for zig-zag cards
   const cardRefs = useRef<HTMLDivElement[]>([]);
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -102,30 +99,27 @@ export default function VisitorHome() {
       <section className="py-16 px-6 md:px-16 text-center bg-white">
         <h2 className="text-3xl font-bold text-[#004d40] mb-6">About NextGen Institute</h2>
         <p className="max-w-3xl mx-auto text-gray-700 leading-relaxed">
-          At <strong>NextGen Institute</strong>, we’re committed to transforming education through innovation and practical learning. Our programs are designed to bridge the gap between classroom knowledge and real-world skills, ensuring every student is ready to succeed in their chosen career path.
+          At <strong>NextGen Institute</strong>, we’re committed to transforming education through innovation and practical learning.
+          Our programs are designed to bridge the gap between classroom knowledge and real-world skills, ensuring every student is ready to succeed in their chosen career path.
         </p>
       </section>
 
-    {/* Animated Stats Section with Background Images */}
-<section ref={counterRef} className="relative py-16 flex flex-col md:flex-row bg-[#004d40] justify-around items-center gap-8 text-center text-white">
-  {/* Background overlay */}
-  <div className="absolute inset-0 bg-cover bg-center opacity-25 z-0" style={{ backgroundImage: "url('/images/number.webp')" }}></div>
-
-  {/* Stats cards */}
-  <div className="relative z-10 transition-transform hover:scale-110 duration-500">
-    <h3 className="text-5xl font-extrabold">{stats.students}+</h3>
-    <p className="text-lg">Students Trained</p>
-  </div>
-  <div className="relative z-10 transition-transform hover:scale-110 duration-500">
-    <h3 className="text-5xl font-extrabold">{stats.instructors}+</h3>
-    <p className="text-lg">Expert Instructors</p>
-  </div>
-  <div className="relative z-10 transition-transform hover:scale-110 duration-500">
-    <h3 className="text-5xl font-extrabold">{stats.years}+</h3>
-    <p className="text-lg">Years of Excellence</p>
-  </div>
-</section>
-
+      {/* Stats Section */}
+      <section ref={counterRef} className="relative py-16 flex flex-col md:flex-row bg-[#004d40] justify-around items-center gap-8 text-center text-white">
+        <div className="absolute inset-0 bg-cover bg-center opacity-25 z-0" style={{ backgroundImage: "url('/images/number.webp')" }}></div>
+        <div className="relative z-10 transition-transform hover:scale-110 duration-500">
+          <h3 className="text-5xl font-extrabold">{stats.students}+</h3>
+          <p className="text-lg">Students Trained</p>
+        </div>
+        <div className="relative z-10 transition-transform hover:scale-110 duration-500">
+          <h3 className="text-5xl font-extrabold">{stats.instructors}+</h3>
+          <p className="text-lg">Expert Instructors</p>
+        </div>
+        <div className="relative z-10 transition-transform hover:scale-110 duration-500">
+          <h3 className="text-5xl font-extrabold">{stats.years}+</h3>
+          <p className="text-lg">Years of Excellence</p>
+        </div>
+      </section>
 
       {/* Featured Courses */}
       <section className="my-16 px-4">
@@ -143,10 +137,7 @@ export default function VisitorHome() {
         </div>
       </section>
 
-
-
-
-      {/* Modern Testimonials */}
+      {/* Testimonials */}
       <section className="my-16 px-4 text-center">
         <h2 className="text-3xl font-bold text-[#004d40] mb-8">What Our Students Say</h2>
         <div className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-8">
@@ -161,10 +152,46 @@ export default function VisitorHome() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#004d40] text-[#e0f2f1] text-center py-3">
-        <p>&copy; 2025 NextGen Institute. All Rights Reserved.</p>
-        <div className="mt-1">
-          <Link href="visitor/privacy-policy" className="hover:underline mx-1">Privacy Policy</Link> | <Link href="visitor/terms" className="hover:underline mx-1">Terms & Conditions</Link>
+      <footer className="bg-[#004d40] text-[#e0f2f1] py-10">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
+          {/* About */}
+          <div>
+            <h3 className="text-xl font-bold mb-3">NextGen Institute</h3>
+            <p>Empowering students with practical IT skills and industry knowledge for a successful future.</p>
+            <div className="flex justify-center md:justify-start gap-4 mt-4">
+              <Link href="https://www.facebook.com/share/1HFjjSA4q6/" target="_blank" className="hover:text-blue-400 text-2xl"><FaFacebook /></Link>
+              <Link href="https://www.instagram.com/d_i_n_u_75?igsh=cGo5YXMzc200enZ0" target="_blank" className="hover:text-pink-400 text-2xl"><FaInstagram /></Link>
+              <Link href="https://www.linkedin.com/in/tharmathevan-dinujan-021a54294?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" className="hover:text-blue-500 text-2xl"><FaLinkedin /></Link>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-xl font-bold mb-3">Quick Links</h3>
+            <ul className="space-y-2">
+              <li><Link href="/" className="hover:underline">Home</Link></li>
+              <li><Link href="/visitor/course" className="hover:underline">Courses</Link></li>
+              <li><Link href="/auth/register" className="hover:underline">Register</Link></li>
+              <li><Link href="/visitor/contact" className="hover:underline">Contact Us</Link></li>
+             
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="text-xl font-bold mb-3">Contact Us</h3>
+            <p className="flex items-center justify-center md:justify-start gap-2"><FaMapMarkerAlt /> 1/3, Hill street Gampola, Sri Lanka</p>
+            <p className="flex items-center justify-center md:justify-start gap-2"><FaEnvelope /> info@nextgen.edu.lk</p>
+            <p className="flex items-center justify-center md:justify-start gap-2"><FaPhone /> +94 76 190 9286</p>
+          </div>
+        </div>
+
+        <div className="text-center text-sm mt-8 border-t border-[#00796b] pt-3">
+          <p>&copy; 2025 NextGen Institute. All Rights Reserved.</p>
+          <div className="mt-1">
+            <Link href="visitor/privacy-policy" className="hover:underline mx-1">Privacy Policy</Link> |
+            <Link href="visitor/terms" className="hover:underline mx-1">Terms & Conditions</Link>
+          </div>
         </div>
       </footer>
 

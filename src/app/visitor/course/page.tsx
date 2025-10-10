@@ -51,9 +51,17 @@ export default function CoursesPage() {
   const [rotation, setRotation] = useState<{ [key: string]: { x: number; y: number } }>({});
 
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Detect if the user is on a mobile device
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+      setIsMobile(true);
+    }
+  }, []);
 
   const toggleFlip = (id: string) => {
-    if (/Mobi|Android/i.test(navigator.userAgent)) {
+    if (isMobile) {
       setFlippedCards((prev) => ({ ...prev, [id]: !prev[id] }));
     }
   };
@@ -189,7 +197,7 @@ export default function CoursesPage() {
               const isFlipped = flippedCards[course.id] || false;
 
               const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-                if (/Mobi|Android/i.test(navigator.userAgent)) return;
+                if (isMobile) return;
 
                 const rect = e.currentTarget.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -209,13 +217,13 @@ export default function CoursesPage() {
               return (
                 <div
                   key={course.id}
-                  className="perspective relative w-full h-65 cursor-pointer"
+                  className="perspective relative w-full h-71 cursor-pointer"
                   onClick={() => toggleFlip(course.id)}
                   onMouseMove={handleMouseMove}
                   onMouseLeave={handleMouseLeave}
                 >
                   <div
-                    className="relative w-full h-64 rounded-2xl shadow-lg transition-transform duration-700 [transform-style:preserve-3d] hover:shadow-2xl"
+                    className="relative w-full h-71 rounded-2xl shadow-lg transition-transform duration-700 [transform-style:preserve-3d] hover:shadow-2xl"
                     style={{
                       transform: isFlipped
                         ? "rotateY(180deg)"
@@ -223,7 +231,7 @@ export default function CoursesPage() {
                     }}
                   >
                     {/* Front */}
-                    <div className="absolute w-full h-64 rounded-2xl [backface-visibility:hidden] bg-white flex flex-col items-center p-3 overflow-hidden">
+                    <div className="absolute w-full h-71 rounded-2xl [backface-visibility:hidden] bg-white flex flex-col items-center p-3 overflow-hidden">
                       <Image
                         src={course.imageUrl}
                         alt={course.courseName}
@@ -235,6 +243,13 @@ export default function CoursesPage() {
                         {course.courseName}
                       </h3>
                       <p className="text-sm text-gray-500">{course.category}</p>
+
+                      {/* Animated text for mobile */}
+                      {isMobile && (
+                        <p className="mt-2 text-xs text-[#00695c] animate-pulse font-medium">
+                          Tap to view more details
+                        </p>
+                      )}
                     </div>
 
                     {/* Back */}
