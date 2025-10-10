@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import {
   getFirestore,
   collection,
@@ -22,8 +22,8 @@ const firebaseConfig = {
   appId: "1:972129736269:web:787e4bf820828e20716e04",
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase safely
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 
 export default function Login() {
@@ -151,7 +151,7 @@ export default function Login() {
 
           {/* Role Selection */}
           <div className="flex justify-center gap-2 sm:gap-3 mb-6 overflow-x-auto md:overflow-x-visible">
-            {[
+            {[ 
               {
                 id: "student",
                 label: "Student",
@@ -268,6 +268,17 @@ export default function Login() {
                 placeholder="Enter your password"
                 disabled={!role}
               />
+              {/* 🔹 Forgot Password Link */}
+              {role === "student" && (
+                <div className="text-right mt-2">
+                  <a
+                    href="/auth/forgotpassword"
+                    className="text-sm text-teal-100 hover:text-white underline"
+                  >
+                    Forgot Password?
+                  </a>
+                </div>
+              )}
             </div>
 
             <button
