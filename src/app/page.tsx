@@ -6,12 +6,18 @@ import Link from "next/link";
 
 export default function VisitorHome() {
   const courses = [
-    { src: "/images/web develop.webp", title: "ICT & Web Development", desc: "Learn programming, web design, and development with hands-on training." },
-    { src: "/images/hotelmanagemnet.webp", title: "Hotel Management", desc: "Gain essential skills in hospitality, tourism, and professional management." },
-    { src: "/images/plumbing.jpeg", title: "Plumbing & Welding", desc: "Practical vocational training with real-world applications." },
-    { src: "/images/humanresourcses.jpg", title: "Human Resources", desc: "Master HR management and organizational skills for corporate success." },
+    { src: "/images/cybersecurity.webp", title: "Cybersecurity", desc: "Learn how to protect systems and data from digital threats and attacks." },
+    { src: "/images/devops.webp", title: "DevOps Engineering", desc: "Master CI/CD pipelines, automation, and cloud-based deployment workflows." },
+    { src: "/images/cloudcomputing.webp", title: "Cloud Computing", desc: "Gain hands-on experience with AWS, Azure, and Google Cloud platforms." },
+    { src: "/images/datascience.webp", title: "Data Science & Analytics", desc: "Explore data visualization, machine learning, and predictive analytics." },
+    { src: "/images/ai.webp", title: "Artificial Intelligence", desc: "Understand neural networks, AI models, and intelligent automation." },
+    { src: "/images/networking.webp", title: "Computer Networking", desc: "Learn network configuration, security, and administration techniques." },
+    { src: "/images/softwareengineering.webp", title: "Software Engineering", desc: "Design and build scalable software solutions with best practices." },
+    { src: "/images/database.webp", title: "Database Management", desc: "Master SQL, NoSQL, and database optimization for modern applications." },
+    { src: "/images/uiux.webp", title: "UI/UX Design", desc: "Learn to design engaging and user-friendly digital interfaces." },
+    { src: "/images/mobileapp.webp", title: "Mobile App Development", desc: "Create Android and iOS apps using Flutter, React Native, and Kotlin." },
   ];
-
+  
   const sliderCourses = [...courses, ...courses];
 
   const [stats, setStats] = useState({ students: 0, instructors: 0, years: 0 });
@@ -52,17 +58,12 @@ export default function VisitorHome() {
     return () => observer.disconnect();
   }, [started]);
 
-  const zigzagCards = [
-    { title: "Practical Learning", desc: "Hands-on projects, workshops, and internships prepare you for real-world challenges.", img: "/images/practical-learning.webp" },
-    { title: "Certified Programs", desc: "Gain industry-recognized certifications that boost your professional credibility.", img: "/images/certificate.webp" },
-    { title: "Modern Facilities", desc: "State-of-the-art labs and digital resources for seamless learning experiences.", img: "/images/modern.webp" },
-    { title: "Career Support", desc: "We provide guidance, workshops, and placement assistance to help you succeed professionally.", img: "/images/career.webp" },
-  ];
+
 
   const testimonials = [
-    { text: `"NextGen transformed my career. The practical sessions helped me land my first job."`, name: "Sivanujan", role: "ICT Graduate, 2022" },
-    { text: `"The instructors are knowledgeable and provide hands-on guidance. I gained real skills in hotel management."`, name: "Thushy", role: "Hotel Management Student, 2017" },
-    { text: `"The vocational training in plumbing and welding was thorough. I now have confidence to take on real projects."`, name: "Dinujan", role: "Vocational Student, 2024" },
+    { text: `"NextGen transformed my career. The practical sessions helped me land my first job."`, name: "Mr.Dinujan", role: "DevOps Graduate, 2022" },
+    { text: `"The instructors are knowledgeable and provided excellent hands-on training in software and web development. I gained real technical skills."`, name: "Mrs.Thadshika",role: "Data Analyst" },
+    { text: `"The practical IT sessions were thorough and helped me build confidence in handling real-world coding and computing projects."`, name: "Mr.Sivan", role: "Computer Science Graduate, 2024" },
   ];
 
   // Scroll animation for zig-zag cards
