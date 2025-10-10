@@ -7,12 +7,13 @@ import Header from "../../../../components/AdminHeader"; // your sidebar + heade
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: "AIzaSyCnUUk7n_oZQqnjKa11ed_SV5P8AGs1_mU",
-    authDomain: "skillpro-64e09.firebaseapp.com",
-    projectId: "skillpro-64e09",
-    storageBucket: "skillpro-64e09.firebasestorage.app",
-    messagingSenderId: "972129736269",
-    appId: "1:972129736269:web:787e4bf820828e20716e04",
+    apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
+  authDomain: "nextgen-9de89.firebaseapp.com",
+  projectId: "nextgen-9de89",
+  storageBucket: "nextgen-9de89.firebasestorage.app",
+  messagingSenderId: "446092918649",
+  appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
+
   });
 }
 

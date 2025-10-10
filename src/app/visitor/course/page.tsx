@@ -3,18 +3,25 @@
 import { useEffect, useState } from "react";
 import VisitorHeader from "../../../../components/VisitorHeader";
 import Image from "next/image";
+
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
+  authDomain: "nextgen-9de89.firebaseapp.com",
+  projectId: "nextgen-9de89",
+  storageBucket: "nextgen-9de89.firebasestorage.app",
+  messagingSenderId: "446092918649",
+  appId: "1:446092918649:web:4c83d7349c62e33cb279a8",
+};
+
+// Initialize Firebase only if it hasn't been initialized yet
 if (!firebase.apps.length) {
-  firebase.initializeApp({
-    apiKey: "AIzaSyCnUUk7n_oZQqnjKa11ed_SV5P8AGs1_mU",
-    authDomain: "skillpro-64e09.firebaseapp.com",
-    projectId: "skillpro-64e09",
-    storageBucket: "skillpro-64e09.firebasestorage.app",
-    messagingSenderId: "972129736269",
-    appId: "1:972129736269:web:787e4bf820828e20716e04",
-  });
+  firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app(); // use the already initialized app
 }
 
 const db = firebase.firestore();
@@ -50,8 +57,6 @@ export default function CoursesPage() {
       setFlippedCards((prev) => ({ ...prev, [id]: !prev[id] }));
     }
   };
-
-  
 
   useEffect(() => {
     setLoading(true);
@@ -156,10 +161,22 @@ export default function CoursesPage() {
           />
         </div>
 
-        {/* Loading Spinner */}
+        {/* Loading Skeleton */}
         {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="w-16 h-16 border-4 border-t-4 border-gray-200 border-t-[#004d40] rounded-full animate-spin"></div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, idx) => (
+              <div
+                key={idx}
+                className="w-full h-64 rounded-2xl bg-gray-200 animate-pulse"
+              >
+                <div className="w-full h-40 bg-gray-300 rounded-t-2xl"></div>
+                <div className="p-4">
+                  <div className="h-6 bg-gray-300 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-300 rounded mb-1 w-3/4"></div>
+                  <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : (
           // Courses Grid
@@ -192,13 +209,13 @@ export default function CoursesPage() {
               return (
                 <div
                   key={course.id}
-                  className="perspective relative w-full h-80 cursor-pointer"
+                  className="perspective relative w-full h-65 cursor-pointer"
                   onClick={() => toggleFlip(course.id)}
                   onMouseMove={handleMouseMove}
                   onMouseLeave={handleMouseLeave}
                 >
                   <div
-                    className="relative w-full h-full rounded-2xl shadow-lg transition-transform duration-700 [transform-style:preserve-3d] hover:shadow-2xl"
+                    className="relative w-full h-64 rounded-2xl shadow-lg transition-transform duration-700 [transform-style:preserve-3d] hover:shadow-2xl"
                     style={{
                       transform: isFlipped
                         ? "rotateY(180deg)"
@@ -206,13 +223,13 @@ export default function CoursesPage() {
                     }}
                   >
                     {/* Front */}
-                    <div className="absolute w-full h-full rounded-2xl [backface-visibility:hidden] bg-white flex flex-col items-center p-3 overflow-hidden">
+                    <div className="absolute w-full h-64 rounded-2xl [backface-visibility:hidden] bg-white flex flex-col items-center p-3 overflow-hidden">
                       <Image
                         src={course.imageUrl}
                         alt={course.courseName}
                         width={500}
                         height={200}
-                        className="w-full h-36 object-cover rounded-lg shadow-sm transition-transform duration-500 hover:scale-105"
+                        className="w-full h-43 object-cover rounded-lg shadow-sm transition-transform duration-500 hover:scale-105"
                       />
                       <h3 className="text-lg font-semibold mt-3 text-[#004d40]">
                         {course.courseName}

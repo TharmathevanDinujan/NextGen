@@ -8,12 +8,12 @@ import { JSX } from "react/jsx-runtime";
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: "AIzaSyCnUUk7n_oZQqnjKa11ed_SV5P8AGs1_mU",
-    authDomain: "skillpro-64e09.firebaseapp.com",
-    projectId: "skillpro-64e09",
-    storageBucket: "skillpro-64e09.firebasestorage.app",
-    messagingSenderId: "972129736269",
-    appId: "1:972129736269:web:787e4bf820828e20716e04",
+    apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
+    authDomain: "nextgen-9de89.firebaseapp.com",
+    projectId: "nextgen-9de89",
+    storageBucket: "nextgen-9de89.firebasestorage.app",
+    messagingSenderId: "446092918649",
+    appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
   });
 }
 
@@ -106,14 +106,13 @@ export default function NoticesPage() {
   };
 
   return (
-    
     <div className="bg-gray-50 min-h-screen">
       <VisitorHeader />
 
-      <main className="container mx-auto  font-poppins">
+      <main className="container mx-auto font-poppins">
         {/* Hero */}
         <section className="bg-gradient-to-r from-teal-600 to-teal-900 text-white text-center rounded-b-3xl py-11 px-4 mb-10">
-          <h1 className="text-4xl  paddingfont-bold mb-3">Notices & Events</h1>
+          <h1 className="text-4xl font-bold mb-3">Notices & Events</h1>
           <p className="text-lg">Stay updated with the latest announcements, events, and calendars from NextGen Institute.</p>
         </section>
 
@@ -123,9 +122,20 @@ export default function NoticesPage() {
           <section>
             <h2 className="text-2xl font-bold text-teal-900 px-3 mb-5">Latest Notices</h2>
 
+            {/* Skeleton UI while loading */}
             {loading ? (
-              <div className="flex justify-center items-center h-64">
-                <div className="w-16 h-16 border-4 border-t-4 border-gray-200 border-t-teal-700 rounded-full animate-spin"></div>
+              <div className="flex flex-col gap-5 px-3">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="bg-white p-5 rounded-xl shadow-md animate-pulse"
+                  >
+                    <div className="h-5 bg-gray-300 rounded w-2/3 mb-3"></div>
+                    <div className="h-4 bg-gray-300 rounded mb-2 w-full"></div>
+                    <div className="h-4 bg-gray-300 rounded w-5/6 mb-3"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/3"></div>
+                  </div>
+                ))}
               </div>
             ) : announcements.length === 0 ? (
               <p className="text-gray-600 px-3">No published announcements found.</p>
