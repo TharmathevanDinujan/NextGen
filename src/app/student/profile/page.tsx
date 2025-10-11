@@ -53,7 +53,7 @@ export default function StudentProfile() {
   
 
   useEffect(() => {
-    // Wait until loggedEmail is actually loaded from localStorage
+   
     if (loggedEmail === "") return;
   
     if (!loggedEmail) {
