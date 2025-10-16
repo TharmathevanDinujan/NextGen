@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import VisitorHeader from "../../components/VisitorHeader";
+import WhatsAppContact from "../../components/WhatsAppContact";
 import Image from "next/image";
 import Link from "next/link";
 import { FaFacebook, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
@@ -81,6 +82,7 @@ export default function VisitorHome() {
   return (
     <div className="font-[Poppins] bg-[#e0f2f1] text-[#333] overflow-x-hidden">
       <VisitorHeader />
+      <WhatsAppContact />
 
       {/* Hero Section */}
       <section
