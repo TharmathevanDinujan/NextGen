@@ -78,7 +78,7 @@ export default function WhatsAppContact() {
               </div>
               <div>
                 <p className="font-semibold text-sm">NextGen</p>
-                <p className="text-xs opacity-90">Replies within 1 hour</p>
+                <p className="text-xs opacity-90">replies within an hour</p>
               </div>
             </div>
             <button
