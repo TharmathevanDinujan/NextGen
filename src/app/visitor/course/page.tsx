@@ -110,7 +110,7 @@ export default function CoursesPage() {
     <div className="bg-gray-50 min-h-screen">
       <VisitorHeader />
 
-      <main className="container mx-auto px-4 py-10 font-poppins">
+      <main className="container mx-auto px-4 pt-24 py-10 font-poppins">
         <h2 className="text-3xl font-bold mb-6 text-center text-[#004d40]">
           Our Professional Courses
         </h2>

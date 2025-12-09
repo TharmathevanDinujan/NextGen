@@ -220,7 +220,7 @@ export default function StudentCourses() {
     <div className="min-h-screen bg-gray-100">
       <Header />
 
-      <main className="p-4 md:p-8">
+      <main className="pt-20 p-4 md:p-8">
         <h1 className="text-2xl text-[#000] font-bold mb-6">
           Welcome <span className="text-teal-700">{studentName}</span>, Explore Courses
         </h1>

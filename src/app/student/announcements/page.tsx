@@ -81,7 +81,7 @@ export default function AnnouncementsPage() {
     <div className="min-h-screen bg-gray-100 font-poppins">
       <Header />
 
-      <main className="max-w-5xl mx-auto px-4 py-10">
+      <main className="max-w-5xl mx-auto px-4 pt-20 py-10">
         <h1 className="text-3xl font-bold text-teal-800 mb-2 text-center sm:text-left">
           Announcements & Events
         </h1>

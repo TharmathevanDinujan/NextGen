@@ -58,7 +58,7 @@ export default function TermsConditions() {
   return (
     <div className="min-h-screen flex flex-col font-poppins bg-teal-50 text-gray-800">
       {/* Header */}
-      <header className="bg-[#004d40] text-white sticky top-0 z-50 shadow-md p-6 text-center">
+      <header className="bg-[#004d40] text-white fixed top-0 left-0 right-0 z-50 shadow-md p-6 text-center">
         <h1 className="text-2xl sm:text-3xl font-bold">NextGen Educational Institute</h1>
         <Link
           href="/"
@@ -69,7 +69,7 @@ export default function TermsConditions() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-teal-600 to-teal-800 text-white text-center py-20 px-4 rounded-b-3xl mb-12">
+      <section className="bg-gradient-to-br from-teal-600 to-teal-800 text-white text-center pt-32 pb-20 px-4 rounded-b-3xl mb-12">
         <h2 className="text-3xl sm:text-4xl font-bold mb-4 animate-fadeInDown">Terms & Conditions</h2>
         <p className="max-w-3xl mx-auto text-lg sm:text-xl opacity-90 animate-fadeInUp">
           Welcome to NextGen! Please read the terms carefully before using our website or enrolling in our courses.

@@ -86,7 +86,7 @@ export default function VisitorHome() {
 
       {/* Hero Section */}
       <section
-        className="relative text-center py-24 px-4 flex flex-col items-center justify-center bg-cover text-[#e0f2f1] bg-center"
+        className="relative text-center pt-32 pb-24 px-4 flex flex-col items-center justify-center bg-cover text-[#e0f2f1] bg-center"
         style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/images/heroimage.webp')" }}
       >
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 animate-fadeInUp">Empowering Skills for a Brighter Future</h1>

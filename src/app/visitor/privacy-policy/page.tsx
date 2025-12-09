@@ -103,7 +103,7 @@ export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen flex flex-col bg-teal-50 font-poppins text-gray-800">
       {/* Header */}
-      <header className="bg-[#004d40] text-white sticky top-0 z-50 shadow-md p-6 text-center">
+      <header className="bg-[#004d40] text-white fixed top-0 left-0 right-0 z-50 shadow-md p-6 text-center">
         <h1 className="text-2xl sm:text-3xl font-bold animate-fadeInDown">
         NextGen Educational Institute
         </h1>
@@ -116,7 +116,7 @@ export default function PrivacyPolicy() {
       </header>
 
       {/* Main */}
-      <main className="container mx-auto px-4 py-10 flex-1">
+      <main className="container mx-auto px-4 pt-32 py-10 flex-1">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 text-center">
           Privacy Policy
         </h2>

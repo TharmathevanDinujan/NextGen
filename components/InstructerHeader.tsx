@@ -89,7 +89,7 @@ export default function Sidebar() {
       </aside>
 
       {/* Mobile Navbar */}
-      <div className="md:hidden flex justify-between items-center bg-teal-900 text-white p-4 shadow-md">
+      <div className="md:hidden flex justify-between items-center bg-teal-900 text-white p-4 shadow-md fixed top-0 left-0 right-0 z-50">
         <h2 className="text-lg font-bold tracking-wide">Instructor Panel</h2>
         <button
           className="flex flex-col justify-center items-center w-8 h-8 space-y-1"

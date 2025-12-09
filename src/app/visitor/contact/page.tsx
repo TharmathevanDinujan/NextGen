@@ -72,7 +72,7 @@ export default function ContactPage() {
       {/* Main content blur when popup visible */}
       <div className={`${popup.visible ? "filter blur-sm" : ""} transition-all duration-300`}>
         {/* Hero Section */}
-        <section className="bg-gradient-to-r from-teal-600 to-teal-900 text-white text-center py-11 px-4 rounded-b-3xl mb-10">
+        <section className="bg-gradient-to-r from-teal-600 to-teal-900 text-white text-center pt-24 pb-11 px-4 rounded-b-3xl mb-10">
           <h1 className="text-4xl font-bold mb-3">Contact Us</h1>
           <p className="text-lg">We’re here to answer your questions about courses, registration, and schedules.</p>
         </section>

@@ -6,7 +6,19 @@ import { usePathname } from "next/navigation";
 
 export default function VisitorHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+
+  // Track scroll position for blur effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 10);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -29,8 +41,19 @@ export default function VisitorHeader() {
   ];
 
   return (
-    <header className="bg-[#004d40] text-white sticky top-0 z-50 font-[Poppins]">
-      <nav className="flex items-center justify-between px-4 py-3 md:px-6">
+    <>
+      <header 
+        className={`text-white fixed top-0 left-0 right-0 z-50 font-[Poppins] transition-all duration-300 ${
+          isScrolled 
+            ? 'bg-[#004d40]/70 backdrop-blur-lg shadow-xl' 
+            : 'bg-[#004d40]/90 backdrop-blur-md'
+        }`}
+        style={{
+          backdropFilter: isScrolled ? 'blur(12px)' : 'blur(8px)',
+          WebkitBackdropFilter: isScrolled ? 'blur(12px)' : 'blur(8px)',
+        }}
+      >
+        <nav className="flex items-center justify-between px-4 py-3 md:px-6">
         {/* Logo + Company Name */}
         <div className="flex items-center gap-2">
           <Image
@@ -214,6 +237,7 @@ export default function VisitorHeader() {
           </div>
         </div>
       </>
-    </header>
+      </header>
+    </>
   );
 }

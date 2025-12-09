@@ -94,7 +94,7 @@ export default function ScheduleMaterials() {
     <div className="min-h-screen bg-gray-100 font-poppins">
       <Header />
 
-      <main className="flex flex-col lg:flex-row gap-6 p-4 sm:p-8">
+      <main className="flex flex-col lg:flex-row gap-6 pt-20 p-4 sm:p-8">
         {/* Schedule Table */}
         <div className="flex-1 overflow-x-auto bg-white rounded-xl shadow-md p-4 animate-slideInLeft">
           <h1 className="text-2xl font-bold text-teal-800 mb-4">Schedule</h1>

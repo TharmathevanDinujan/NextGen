@@ -85,7 +85,7 @@ export default function EnquiryForm() {
     <div className="min-h-screen bg-gray-100 font-poppins relative">
       <Header />
 
-      <main className={`flex justify-center items-start p-4 sm:p-8 transition-all duration-500 ${popup.show ? "blur-sm pointer-events-none select-none" : ""}`}>
+      <main className={`flex justify-center items-start pt-20 p-4 sm:p-8 transition-all duration-500 ${popup.show ? "blur-sm pointer-events-none select-none" : ""}`}>
         <section className="w-full max-w-lg bg-white p-8 rounded-2xl shadow-lg animate-fadeUp">
           <h1 className="text-3xl font-bold text-teal-800 mb-6 text-center">Submit Your Enquiry</h1>
 

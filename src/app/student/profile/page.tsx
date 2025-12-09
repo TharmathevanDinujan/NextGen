@@ -173,7 +173,7 @@ export default function StudentProfile() {
     <div className="min-h-screen bg-gray-100 font-poppins">
       <Header />
 
-      <main className="max-w-3xl mx-auto px-4 py-10 relative">
+      <main className="max-w-3xl mx-auto px-4 pt-20 py-10 relative">
         <h1 className="text-3xl font-bold text-teal-800 mb-8 text-center sm:text-left animate-fadeDown">
           Student Profile
         </h1>

@@ -111,7 +111,7 @@ export default function NoticesPage() {
 
       <main className="container mx-auto font-poppins">
         {/* Hero */}
-        <section className="bg-gradient-to-r from-teal-600 to-teal-900 text-white text-center rounded-b-3xl py-11 px-4 mb-10">
+        <section className="bg-gradient-to-r from-teal-600 to-teal-900 text-white text-center rounded-b-3xl pt-24 pb-11 px-4 mb-10">
           <h1 className="text-4xl font-bold mb-3">Notices & Events</h1>
           <p className="text-lg">Stay updated with the latest announcements, events, and calendars from NextGen Institute.</p>
         </section>

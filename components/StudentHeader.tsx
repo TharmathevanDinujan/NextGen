@@ -56,7 +56,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className="fixed top-0 left-0 right-0 z-50">
       <div className="bg-teal-900 text-white shadow-md flex justify-between items-center p-4 md:px-8">
         {/* Logo */}
         <div className="flex items-center gap-3">

@@ -29,7 +29,7 @@ export default function AssignmentsPage() {
       {/* Header Component */}
       <Header />
 
-      <main className="p-4 sm:p-8">
+      <main className="pt-20 p-4 sm:p-8">
         <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-800">Assignments</h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
