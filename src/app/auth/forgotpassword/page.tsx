@@ -366,7 +366,7 @@ export default function ForgotPassword() {
             <button
               type="submit"
               className="w-full font-bold py-3 rounded-xl transition-all duration-300 btn-modern-icon btn-modern-primary bg-white text-teal-900 hover:bg-gradient-to-r hover:from-teal-100 hover:to-cyan-100 hover:shadow-lg disabled:bg-gray-300 disabled:cursor-not-allowed"
-              disabled={loading || (email && !emailExists)}
+              disabled={loading || (email.length > 0 && !emailExists)}
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
