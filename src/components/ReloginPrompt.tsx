@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getReloginUser, clearReloginUser } from "@/lib/auth";
+import { getReloginUser, clearReloginUser, getQuickLogin } from "@/lib/auth";
 
 export default function ReloginPrompt() {
   const [showPrompt, setShowPrompt] = useState(false);
@@ -17,10 +17,24 @@ export default function ReloginPrompt() {
     }
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (userInfo) {
-      clearReloginUser();
-      router.push(`/auth/login?role=${userInfo.role}`);
+      // Check if we have quick login credentials
+      const quickLogin = getQuickLogin();
+      
+      if (quickLogin && quickLogin.email === userInfo.email && quickLogin.role === userInfo.role) {
+        // Auto-login with stored credentials
+        setShowPrompt(false);
+        clearReloginUser();
+        
+        // Redirect to login page with autoLogin flag
+        window.location.href = `/auth/login?role=${userInfo.role}&email=${encodeURIComponent(userInfo.email)}&autoLogin=true`;
+      } else {
+        // No quick login available, just redirect with email pre-filled
+        setShowPrompt(false);
+        clearReloginUser();
+        window.location.href = `/auth/login?role=${userInfo.role}&email=${encodeURIComponent(userInfo.email)}`;
+      }
     }
   };
 

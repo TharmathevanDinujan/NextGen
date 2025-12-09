@@ -12,7 +12,7 @@ import {
 import VisitorHeader from "../../../../components/VisitorHeader";
 import ReloginPrompt from "@/components/ReloginPrompt";
 import { useRouter, useSearchParams } from "next/navigation";
-import { setSession, clearReloginUser, clearAllSessions } from "@/lib/auth";
+import { setSession, clearReloginUser, clearAllSessions, getQuickLogin, clearQuickLogin, saveUserForRelogin } from "@/lib/auth";
 
 // Firebase Config
 const firebaseConfig = {
@@ -41,16 +41,58 @@ function LoginContent() {
     redirect?: string;
   } | null>(null);
   const [loading, setLoading] = useState(false);
+  const [shouldAutoLogin, setShouldAutoLogin] = useState(false);
 
   // Check for redirect and role from URL params
   useEffect(() => {
     const urlRole = searchParams.get("role");
     const redirect = searchParams.get("redirect");
+    const urlEmail = searchParams.get("email");
+    const autoLogin = searchParams.get("autoLogin") === "true";
     
     if (urlRole && ["admin", "student", "instructor"].includes(urlRole)) {
       setRole(urlRole);
     }
+    
+    // Auto-fill email if provided in URL (from relogin prompt)
+    if (urlEmail) {
+      setEmail(decodeURIComponent(urlEmail));
+    }
+    
+    // Set auto-login flag if conditions are met
+    if (autoLogin && urlEmail && urlRole) {
+      const quickLogin = getQuickLogin();
+      if (quickLogin && quickLogin.email === decodeURIComponent(urlEmail) && quickLogin.role === urlRole) {
+        // Auto-fill password
+        setPassword(quickLogin.password);
+        // Clear quick login after use
+        clearQuickLogin();
+        // Set flag to trigger auto-login
+        setShouldAutoLogin(true);
+      }
+    } else if (urlEmail) {
+      // Just focus password field if not auto-logging
+      setTimeout(() => {
+        const passwordInput = document.getElementById("password") as HTMLInputElement;
+        if (passwordInput) {
+          passwordInput.focus();
+        }
+      }, 100);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
+
+  // Separate useEffect to handle auto-login once all state is set
+  useEffect(() => {
+    if (shouldAutoLogin && role && email && password) {
+      // All state is ready, trigger login
+      setShouldAutoLogin(false); // Reset flag to prevent multiple calls
+      setTimeout(() => {
+        handleLogin();
+      }, 300);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shouldAutoLogin, role, email, password]);
 
   // Prevent user from going back to login page
   useEffect(() => {
@@ -77,8 +119,10 @@ function LoginContent() {
     setRole(selectedRole);
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = async (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault();
+    }
 
     if (!role) {
       showPopup("Error", "Please select your account type first!");
@@ -91,6 +135,9 @@ function LoginContent() {
     }
 
     setLoading(true);
+    
+    // Clear quick login after use
+    clearQuickLogin();
 
     try {
       // Admin hardcoded login
@@ -100,6 +147,8 @@ function LoginContent() {
           clearAllSessions();
           // Set session token
           setSession("admin", email, "Admin");
+          // Store password temporarily for quick re-login (10 minutes)
+          saveUserForRelogin("admin", email, "Admin", password);
           clearReloginUser(); // Clear relogin prompt
           
           const redirect = searchParams.get("redirect") || "/admin/dashboard";
@@ -132,6 +181,8 @@ function LoginContent() {
           clearAllSessions();
           // Set session token
           setSession("student", email, name, snapshot.docs[0].id);
+          // Store password temporarily for quick re-login (10 minutes)
+          saveUserForRelogin("student", email, name, password);
           // Also set old localStorage items for backward compatibility
           localStorage.setItem("loggedStudentEmail", email);
           localStorage.setItem("loggedStudentName", name);
@@ -149,6 +200,8 @@ function LoginContent() {
           // Set session token for instructor
           const instructorDocId = snapshot.docs[0].id;
           setSession("instructor", email, name, instructorDocId);
+          // Store password temporarily for quick re-login (10 minutes)
+          saveUserForRelogin("instructor", email, name, password);
           // Also set old localStorage items for backward compatibility
           localStorage.setItem("instructorDocId", instructorDocId);
           clearReloginUser(); // Clear relogin prompt

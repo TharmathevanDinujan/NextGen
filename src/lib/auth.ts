@@ -107,7 +107,7 @@ export function clearAllSessions(): void {
 }
 
 // Save user info for re-login prompt (after logout)
-export function saveUserForRelogin(role: UserRole, email: string, name: string): void {
+export function saveUserForRelogin(role: UserRole, email: string, name: string, password?: string): void {
   const reloginData = {
     role,
     email,
@@ -115,6 +115,46 @@ export function saveUserForRelogin(role: UserRole, email: string, name: string):
     timestamp: Date.now(),
   };
   localStorage.setItem("relogin_user", JSON.stringify(reloginData));
+  
+  // Store password temporarily in sessionStorage for quick re-login (expires in 10 minutes)
+  if (password) {
+    const quickLoginData = {
+      role,
+      email,
+      password,
+      expiresAt: Date.now() + 10 * 60 * 1000, // 10 minutes
+    };
+    sessionStorage.setItem("quick_login", JSON.stringify(quickLoginData));
+  }
+}
+
+// Get quick login credentials (for automatic re-login)
+export function getQuickLogin(): { role: UserRole; email: string; password: string } | null {
+  if (typeof window === "undefined") return null;
+  
+  const quickLoginStr = sessionStorage.getItem("quick_login");
+  if (!quickLoginStr) return null;
+  
+  try {
+    const quickLogin = JSON.parse(quickLoginStr);
+    // Check if expired
+    if (Date.now() > quickLogin.expiresAt) {
+      sessionStorage.removeItem("quick_login");
+      return null;
+    }
+    return {
+      role: quickLogin.role,
+      email: quickLogin.email,
+      password: quickLogin.password,
+    };
+  } catch {
+    return null;
+  }
+}
+
+// Clear quick login credentials
+export function clearQuickLogin(): void {
+  sessionStorage.removeItem("quick_login");
 }
 
 // Get user info for re-login prompt
