@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and private routes
+Disallow: /admin/
+Disallow: /instructor/
+Disallow: /student/
+Disallow: /auth/
+
+# Sitemap
+Sitemap: https://your-domain.com/sitemap.xml
+
