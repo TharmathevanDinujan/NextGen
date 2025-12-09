@@ -154,7 +154,7 @@ const Register: React.FC = () => {
                 name="fullname"
                 value={form.fullname}
                 onChange={handleChange}
-                className="rounded-lg p-3 text-black w-full bg-white border border-black"
+                className="input-modern text-black"
               />
               {errors.fullname && (
                 <span className="text-red-400 text-sm">{errors.fullname}</span>
@@ -172,7 +172,7 @@ const Register: React.FC = () => {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                className="rounded-lg p-3 text-black w-full bg-white border border-black"
+                className="input-modern text-black"
               />
               {checkingEmail && (
                 <span className="text-yellow-300 text-sm">Checking email...</span>
@@ -199,7 +199,7 @@ const Register: React.FC = () => {
                 value={form.phone}
                 onChange={handleChange}
                 maxLength={10}
-                className="rounded-lg p-3 text-black w-full bg-white border border-black"
+                className="input-modern text-black"
               />
               {errors.phone && (
                 <span className="text-red-400 text-sm">{errors.phone}</span>
@@ -218,7 +218,7 @@ const Register: React.FC = () => {
                   name="password"
                   value={form.password}
                   onChange={handleChange}
-                  className="rounded-lg p-3 text-black w-full bg-white border border-black pr-12"
+                  className="input-modern text-black pr-12"
                 />
                 <button
                   type="button"
@@ -289,7 +289,7 @@ const Register: React.FC = () => {
                   name="confirmPassword"
                   value={form.confirmPassword}
                   onChange={handleChange}
-                  className="rounded-lg p-3 text-black w-full bg-white border border-black pr-12"
+                  className="input-modern text-black pr-12"
                 />
                 <button
                   type="button"
@@ -350,13 +350,16 @@ const Register: React.FC = () => {
             <button
               type="submit"
               disabled={emailExists}
-              className={`w-full font-bold py-3 rounded-lg transition ${
+              className={`w-full font-bold py-3 rounded-xl transition-all duration-300 btn-modern-icon ${
                 emailExists
                   ? "bg-gray-400 cursor-not-allowed text-white"
-                  : "bg-white text-teal-900 hover:bg-teal-200"
+                  : "btn-modern-primary bg-white text-teal-900 hover:bg-gradient-to-r hover:from-teal-100 hover:to-cyan-100 hover:shadow-lg"
               }`}
             >
-              Register
+              <span>Register</span>
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+              </svg>
             </button>
           </form>
 

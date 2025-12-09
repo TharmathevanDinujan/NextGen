@@ -120,14 +120,14 @@ export default function CoursesPage() {
           <input
             type="text"
             placeholder="Search by course name..."
-            className="flex-1 min-w-[150px] px-3 py-2 rounded-md text-white placeholder-white focus:outline-none bg-[#00695c]"
+            className="flex-1 min-w-[150px] px-4 py-3 rounded-xl text-white placeholder-white/70 focus:outline-none bg-white/10 backdrop-blur-sm border border-white/20 focus:border-white/40 focus:ring-2 focus:ring-white/20 transition-all"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="flex-1 min-w-[150px] px-3 py-2 rounded-md text-white focus:outline-none bg-[#00695c]"
+            className="flex-1 min-w-[150px] px-4 py-3 rounded-xl text-white focus:outline-none bg-white/10 backdrop-blur-sm border border-white/20 focus:border-white/40 focus:ring-2 focus:ring-white/20 transition-all cursor-pointer"
           >
             <option value="">All Categories</option>
             {uniqueCategories.map((c) => (
@@ -139,7 +139,7 @@ export default function CoursesPage() {
           <select
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="flex-1 min-w-[150px] px-3 py-2 rounded-md text-white focus:outline-none bg-[#00695c]"
+            className="flex-1 min-w-[150px] px-4 py-3 rounded-xl text-white focus:outline-none bg-white/10 backdrop-blur-sm border border-white/20 focus:border-white/40 focus:ring-2 focus:ring-white/20 transition-all cursor-pointer"
           >
             <option value="">All Locations</option>
             {uniqueLocations.map((l) => (
@@ -151,7 +151,7 @@ export default function CoursesPage() {
           <select
             value={duration}
             onChange={(e) => setDuration(e.target.value)}
-            className="flex-1 min-w-[150px] px-3 py-2 rounded-md text-white focus:outline-none bg-[#00695c]"
+            className="flex-1 min-w-[150px] px-4 py-3 rounded-xl text-white focus:outline-none bg-white/10 backdrop-blur-sm border border-white/20 focus:border-white/40 focus:ring-2 focus:ring-white/20 transition-all cursor-pointer"
           >
             <option value="">All Durations</option>
             {uniqueDurations.map((d) => (
@@ -163,7 +163,7 @@ export default function CoursesPage() {
           <input
             type="text"
             placeholder="Instructor name"
-            className="flex-1 min-w-[150px] px-3 py-2 rounded-md text-white placeholder-white focus:outline-none bg-[#00695c]"
+            className="flex-1 min-w-[150px] px-4 py-3 rounded-xl text-white placeholder-white/70 focus:outline-none bg-white/10 backdrop-blur-sm border border-white/20 focus:border-white/40 focus:ring-2 focus:ring-white/20 transition-all"
             value={instructor}
             onChange={(e) => setInstructor(e.target.value)}
           />
@@ -262,9 +262,12 @@ export default function CoursesPage() {
                       <p><strong>University:</strong> {course.university}</p>
                       <a
                         href={`/auth/register?course=${course.id}`}
-                        className="mt-3 px-4 py-2 bg-[#009688] rounded-lg font-semibold text-white hover:bg-[#00796b] transition-all"
+                        className="mt-3 btn-modern-primary px-4 py-2 btn-modern-icon"
                       >
-                        Apply
+                        <span>Apply Now</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
                       </a>
                     </div>
                   </div>

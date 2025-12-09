@@ -14,6 +14,7 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import emailjs from "@emailjs/browser";
+import VisitorHeader from "../../../../components/VisitorHeader";
 
 // Firebase Config
 const firebaseConfig = {
@@ -197,129 +198,235 @@ export default function ForgotPassword() {
   // If password reset is complete, don't show the form again
   if (passwordResetComplete) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300 p-4">
-        <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md text-center">
-          <h2 className="text-2xl text-[#000] font-semibold mb-4">Password Reset Successful!</h2>
-          <p className="text-[#000] mb-4">Redirecting to login page...</p>
+      <div className="font-[Poppins] bg-[#e0f2f1] text-[#333] min-h-screen flex flex-col">
+        <VisitorHeader />
+        <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-teal-50 to-teal-100">
+          <div className="bg-gradient-to-br from-teal-700 to-teal-900 text-white rounded-2xl shadow-2xl p-8 w-full max-w-md text-center">
+            <div className="mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 mx-auto text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold mb-4">Password Reset Successful!</h2>
+            <p className="text-teal-100 text-lg mb-6">Your password has been updated. Redirecting to login page...</p>
+            <div className="flex justify-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+            </div>
+          </div>
         </div>
+        <footer className="bg-teal-900 text-teal-100 text-center py-4 mt-auto">
+          &copy; 2025 NextGen Institute. All Rights Reserved.
+        </footer>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-300 p-4">
-      <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-[#000] text-center mb-6">Forgot Password</h2>
+    <div className="font-[Poppins] bg-[#e0f2f1] text-[#333] min-h-screen flex flex-col">
+      {/* Header */}
+      <div className="w-full flex-shrink-0">
+        <VisitorHeader />
+      </div>
 
-        <form
-          onSubmit={
-            otpSent && !otpVerified
-              ? handleVerifyOtp
-              : !otpSent
-              ? handleSendOtp
-              : handleSetNewPassword
-          }
-          className="space-y-4"
-        >
-          {/* Email Input */}
-          <div>
-            <label className="block text-sm font-medium text-[#000] ">Email</label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full text-[#000] px-4 py-2 mt-1 border rounded-lg"
-              required
-              disabled={otpSent}
-            />
-            {/* Live Email Status */}
-            {email && (
-              <p
-                className={`mt-1 text-sm ${
-                  emailExists === null
-                    ? "text-gray-500"
-                    : emailExists
-                    ? "text-green-600"
-                    : "text-red-600"
-                }`}
-              >
-                {emailExists === null
-                  ? "Checking email..."
-                  : emailExists
-                  ? "Email exists."
-                  : "Email not found."}
-              </p>
-            )}
+      {/* Main content */}
+      <div className="flex-1 flex justify-center items-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-teal-50 to-teal-100">
+        <div className="bg-gradient-to-br from-teal-700 to-teal-900 text-white rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-md m-4 sm:m-6">
+          <div className="text-center mb-6">
+            <div className="mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 mx-auto text-teal-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+              </svg>
+            </div>
+            <h2 className="text-4xl font-bold mb-2">Forgot Password</h2>
+            <p className="text-teal-100 text-lg">Reset your password in 3 simple steps</p>
           </div>
 
-          {/* OTP Input */}
-          {otpSent && !otpVerified && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">OTP</label>
-              <input
-                type="text"
-                placeholder="Enter OTP"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                className="w-full px-4 text-[#000] py-2 mt-1 border rounded-lg"
-                required
-              />
-            </div>
-          )}
-
-          {/* New Password Input */}
-          {otpVerified && (
-            <div>
-              <label className="block text-sm font-medium text-[#000]">New Password</label>
-              <input
-                type="password"
-                placeholder="Enter new password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-4 py-2 mt-1 text-[#000] border rounded-lg"
-                required
-              />
-            </div>
-          )}
-
-          <button
-            type="submit"
-            className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex justify-center items-center gap-2"
-            disabled={loading}
+          <form
+            onSubmit={
+              otpSent && !otpVerified
+                ? handleVerifyOtp
+                : !otpSent
+                ? handleSendOtp
+                : handleSetNewPassword
+            }
+            className="space-y-4"
           >
-            {loading && (
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v4l-3 3 3 3V20a8 8 0 01-8-8z"
-                ></path>
-              </svg>
-            )}
-            {!otpSent ? "Send OTP" : !otpVerified ? "Verify OTP" : "Set New Password"}
-          </button>
-        </form>
+            {/* Step Indicator */}
+            <div className="flex items-center justify-center gap-2 mb-6">
+              <div className={`flex items-center ${!otpSent ? 'text-white' : 'text-teal-200'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${!otpSent ? 'bg-white text-teal-900' : 'bg-teal-200 text-teal-900'}`}>
+                  {otpSent ? '✓' : '1'}
+                </div>
+                <span className="ml-2 text-sm font-medium">Email</span>
+              </div>
+              <div className={`w-12 h-0.5 ${otpSent ? 'bg-white' : 'bg-teal-200'}`}></div>
+              <div className={`flex items-center ${otpSent && !otpVerified ? 'text-white' : otpVerified ? 'text-white' : 'text-teal-200'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${otpSent && !otpVerified ? 'bg-white text-teal-900' : otpVerified ? 'bg-white text-teal-900' : 'bg-teal-200 text-teal-900'}`}>
+                  {otpVerified ? '✓' : '2'}
+                </div>
+                <span className="ml-2 text-sm font-medium">OTP</span>
+              </div>
+              <div className={`w-12 h-0.5 ${otpVerified ? 'bg-white' : 'bg-teal-200'}`}></div>
+              <div className={`flex items-center ${otpVerified ? 'text-white' : 'text-teal-200'}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${otpVerified ? 'bg-white text-teal-900' : 'bg-teal-200 text-teal-900'}`}>
+                  3
+                </div>
+                <span className="ml-2 text-sm font-medium">Password</span>
+              </div>
+            </div>
 
-        {status && (
-          <p className={`mt-4 text-center ${otpVerified ? "text-green-700" : "text-red-700"}`}>
-            {status}
+            {/* Email Input */}
+            <div>
+              <label className="block font-semibold mb-1 text-white">Email Address</label>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="input-modern text-black"
+                required
+                disabled={otpSent}
+              />
+              {/* Live Email Status */}
+              {email && (
+                <p
+                  className={`mt-2 text-sm flex items-center gap-1 ${
+                    emailExists === null
+                      ? "text-yellow-300"
+                      : emailExists
+                      ? "text-green-300"
+                      : "text-red-300"
+                  }`}
+                >
+                  {emailExists === null ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l-3 3 3 3V20a8 8 0 01-8-8z"></path>
+                      </svg>
+                      Checking email...
+                    </>
+                  ) : emailExists ? (
+                    <>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Email verified
+                    </>
+                  ) : (
+                    <>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                      Email not found
+                    </>
+                  )}
+                </p>
+              )}
+            </div>
+
+            {/* OTP Input */}
+            {otpSent && !otpVerified && (
+              <div>
+                <label className="block font-semibold mb-1 text-white">Enter OTP</label>
+                <input
+                  type="text"
+                  placeholder="Enter 6-digit OTP"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                  className="input-modern text-black text-center text-2xl tracking-widest font-bold"
+                  required
+                  maxLength={6}
+                />
+                <p className="mt-2 text-sm text-teal-100">Check your email for the OTP code</p>
+              </div>
+            )}
+
+            {/* New Password Input */}
+            {otpVerified && (
+              <div>
+                <label className="block font-semibold mb-1 text-white">New Password</label>
+                <input
+                  type="password"
+                  placeholder="Enter new password (min. 8 characters)"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="input-modern text-black"
+                  required
+                  minLength={8}
+                />
+                {newPassword && (
+                  <p className={`mt-2 text-sm ${newPassword.length >= 8 ? 'text-green-300' : 'text-yellow-300'}`}>
+                    {newPassword.length >= 8 ? '✓ Password strength: Good' : `⚠ Need ${8 - newPassword.length} more characters`}
+                  </p>
+                )}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full font-bold py-3 rounded-xl transition-all duration-300 btn-modern-icon btn-modern-primary bg-white text-teal-900 hover:bg-gradient-to-r hover:from-teal-100 hover:to-cyan-100 hover:shadow-lg disabled:bg-gray-300 disabled:cursor-not-allowed"
+              disabled={loading || (email && !emailExists)}
+            >
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l-3 3 3 3V20a8 8 0 01-8-8z"></path>
+                  </svg>
+                  {!otpSent ? "Sending OTP..." : !otpVerified ? "Verifying..." : "Updating Password..."}
+                </span>
+              ) : (
+                <span className="flex items-center justify-center gap-2">
+                  {!otpSent ? (
+                    <>
+                      <span>Send OTP</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </>
+                  ) : !otpVerified ? (
+                    <>
+                      <span>Verify OTP</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </>
+                  ) : (
+                    <>
+                      <span>Set New Password</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                      </svg>
+                    </>
+                  )}
+                </span>
+              )}
+            </button>
+          </form>
+
+          {status && (
+            <div className={`mt-4 p-4 rounded-xl text-center ${
+              status.includes("success") || status.includes("verified") || otpVerified
+                ? "bg-green-500/20 text-green-200 border border-green-400/30"
+                : "bg-red-500/20 text-red-200 border border-red-400/30"
+            }`}>
+              <p className="font-medium">{status}</p>
+            </div>
+          )}
+
+          <p className="text-lg text-center mt-6 text-teal-100">
+            Remember your password?{" "}
+            <a href="/auth/login" className="underline font-semibold hover:text-white transition-colors">
+              Login
+            </a>
           </p>
-        )}
+        </div>
       </div>
+
+      <footer className="bg-teal-900 text-teal-100 text-center py-4 mt-auto">
+        &copy; 2025 NextGen Institute. All Rights Reserved.
+      </footer>
     </div>
   );
 }

@@ -92,8 +92,18 @@ export default function VisitorHome() {
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 animate-fadeInUp">Empowering Skills for a Brighter Future</h1>
         <p className="text-lg sm:text-xl md:text-2xl mb-6 animate-fadeInUp delay-200">Your journey to professional excellence starts here.</p>
         <div className="flex flex-col sm:flex-row gap-4 animate-fadeInUp delay-400">
-          <Link href="/visitor/course" className="bg-[#00796b] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#004d40] transition-colors">Explore Courses</Link>
-          <Link href="/auth/register" className="border-2 border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white hover:text-[#004d40] transition-colors">Register Now</Link>
+          <Link href="/visitor/course" className="btn-modern-primary btn-modern-icon">
+            <span>Explore Courses</span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </Link>
+          <Link href="/auth/register" className="btn-modern-secondary btn-modern-icon">
+            <span>Register Now</span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
+          </Link>
         </div>
       </section>
 
@@ -129,10 +139,10 @@ export default function VisitorHome() {
         <div className="overflow-hidden">
           <div className="flex w-max animate-slideCourses">
             {sliderCourses.map((course, idx) => (
-              <div key={idx} className="min-w-[250px] bg-white rounded-xl shadow-md p-4 flex-shrink-0 text-center hover:-translate-y-1 transition-transform mx-2">
-                <Image src={course.src} alt={course.title} width={250} height={150} className="w-full h-36 object-cover rounded-lg mb-4" />
-                <h3 className="font-bold text-lg mb-2">{course.title}</h3>
-                <p className="text-sm">{course.desc}</p>
+              <div key={idx} className="min-w-[250px] card-modern-gradient p-4 flex-shrink-0 text-center mx-2">
+                <Image src={course.src} alt={course.title} width={250} height={150} className="w-full h-36 object-cover rounded-xl mb-4 shadow-md" />
+                <h3 className="font-bold text-lg mb-2 text-[#004d40]">{course.title}</h3>
+                <p className="text-sm text-gray-600">{course.desc}</p>
               </div>
             ))}
           </div>
@@ -144,10 +154,10 @@ export default function VisitorHome() {
         <h2 className="text-3xl font-bold text-[#004d40] mb-8">What Our Students Say</h2>
         <div className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-8">
           {testimonials.map((t, idx) => (
-            <div key={idx} className="max-w-md mx-auto text-center px-4 py-6 bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-500">
-              <p className="italic text-gray-800">{t.text}</p>
-              <span className="block mt-3 font-semibold text-[#004d40]">{t.name}</span>
-              <div className="text-[#00796b] font-medium text-sm">{t.role}</div>
+            <div key={idx} className="max-w-md mx-auto text-center px-4 py-6 card-modern-gradient">
+              <p className="italic text-gray-800 leading-relaxed">{t.text}</p>
+              <span className="block mt-3 font-semibold text-[#004d40] text-lg">{t.name}</span>
+              <div className="text-[#00796b] font-medium text-sm mt-1">{t.role}</div>
             </div>
           ))}
         </div>

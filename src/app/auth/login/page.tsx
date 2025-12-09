@@ -218,10 +218,10 @@ export default function Login() {
                 key={r.id}
                 type="button"
                 onClick={() => handleRoleSelect(r.id)}
-                className={`flex flex-col items-center min-w-[75px] sm:min-w-[90px] p-3 rounded-xl border-2 transition transform hover:scale-105 ${
+                className={`flex flex-col items-center min-w-[75px] sm:min-w-[90px] p-3 rounded-xl border-2 transition-all duration-300 transform ${
                   role === r.id
-                    ? "border-white bg-white/10"
-                    : "border-transparent hover:border-teal-200"
+                    ? "border-white bg-white/20 shadow-lg shadow-white/20 scale-105"
+                    : "border-white/30 bg-white/5 hover:border-white/60 hover:bg-white/10 hover:scale-105"
                 }`}
               >
                 {r.icon}
@@ -250,7 +250,7 @@ export default function Login() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 rounded-lg border text-black focus:outline-none focus:ring-2 focus:ring-teal-400"
+                className="input-modern text-black"
                 placeholder="Enter your email"
                 disabled={!role}
               />
@@ -265,7 +265,7 @@ export default function Login() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3 rounded-lg border text-black focus:outline-none focus:ring-2 focus:ring-teal-400"
+                className="input-modern text-black"
                 placeholder="Enter your password"
                 disabled={!role}
               />
@@ -285,13 +285,28 @@ export default function Login() {
             <button
               type="submit"
               disabled={!role || loading}
-              className={`w-full font-bold py-3 rounded-lg transition ${
+              className={`w-full font-bold py-3 rounded-xl transition-all duration-300 ${
                 !role || loading
                   ? "bg-gray-300 text-gray-600 cursor-not-allowed"
-                  : "bg-white text-teal-900 hover:bg-teal-200"
+                  : "btn-modern-primary bg-white text-teal-900 hover:bg-gradient-to-r hover:from-teal-100 hover:to-cyan-100 hover:shadow-lg"
               }`}
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Logging in...
+                </span>
+              ) : (
+                <span className="flex items-center justify-center gap-2">
+                  Login
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
+              )}
             </button>
           </form>
 
@@ -311,7 +326,7 @@ export default function Login() {
               <p className="mb-4">{popup.message}</p>
               <button
                 onClick={handlePopupClose}
-                className="bg-white text-teal-900 px-6 py-2 rounded-lg font-semibold hover:bg-teal-200 transition"
+                className="btn-modern-primary px-6 py-2 bg-white text-teal-900 hover:bg-gradient-to-r hover:from-teal-100 hover:to-cyan-100"
               >
                 OK
               </button>

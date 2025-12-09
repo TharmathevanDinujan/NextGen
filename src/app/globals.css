@@ -29,4 +29,136 @@ body {
   transform: rotateY(180deg) !important;
 }
 
+/* Modern Button Styles */
+.btn-modern-primary {
+  @apply relative px-6 py-3 font-semibold text-white rounded-xl;
+  @apply bg-gradient-to-r from-teal-600 via-teal-500 to-teal-600;
+  @apply shadow-lg shadow-teal-500/50;
+  @apply transition-all duration-300 ease-out;
+  @apply hover:scale-105 hover:shadow-xl hover:shadow-teal-500/60;
+  @apply active:scale-95;
+  @apply overflow-hidden;
+}
+
+.btn-modern-primary::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0;
+  @apply translate-x-[-100%] transition-transform duration-700;
+}
+
+.btn-modern-primary:hover::before {
+  @apply translate-x-[100%];
+}
+
+.btn-modern-secondary {
+  @apply relative px-6 py-3 font-semibold rounded-xl;
+  @apply border-2 border-white text-white;
+  @apply bg-white/10 backdrop-blur-sm;
+  @apply transition-all duration-300 ease-out;
+  @apply hover:scale-105 hover:bg-white hover:text-teal-900;
+  @apply hover:shadow-lg hover:shadow-white/20;
+  @apply active:scale-95;
+}
+
+.btn-modern-outline {
+  @apply relative px-6 py-3 font-semibold rounded-xl;
+  @apply border-2 border-teal-600 text-teal-600;
+  @apply bg-transparent;
+  @apply transition-all duration-300 ease-out;
+  @apply hover:scale-105 hover:bg-teal-600 hover:text-white;
+  @apply hover:shadow-lg hover:shadow-teal-500/40;
+  @apply active:scale-95;
+}
+
+.btn-modern-gradient {
+  @apply relative px-6 py-3 font-semibold text-white rounded-xl;
+  @apply bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500;
+  @apply shadow-lg shadow-cyan-500/50;
+  @apply transition-all duration-300 ease-out;
+  @apply hover:scale-105 hover:shadow-xl hover:shadow-cyan-500/60;
+  @apply active:scale-95;
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+}
+
+.btn-modern-gradient:hover {
+  background-position: 100% 0%;
+}
+
+.btn-modern-glass {
+  @apply relative px-6 py-3 font-semibold rounded-xl;
+  @apply bg-white/10 backdrop-blur-md border border-white/20;
+  @apply text-white;
+  @apply transition-all duration-300 ease-out;
+  @apply hover:scale-105 hover:bg-white/20 hover:shadow-lg;
+  @apply active:scale-95;
+}
+
+.btn-modern-icon {
+  @apply inline-flex items-center justify-center gap-2;
+}
+
+/* Modern Card Styles */
+.card-modern {
+  @apply bg-white rounded-2xl shadow-lg;
+  @apply transition-all duration-300 ease-out;
+  @apply hover:shadow-2xl hover:-translate-y-1;
+}
+
+.card-modern-gradient {
+  @apply bg-gradient-to-br from-white to-teal-50 rounded-2xl shadow-lg;
+  @apply transition-all duration-300 ease-out;
+  @apply hover:shadow-2xl hover:-translate-y-1;
+}
+
+/* Modern Input Styles */
+.input-modern {
+  @apply w-full px-4 py-3 rounded-xl border-2 border-gray-200;
+  @apply focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20;
+  @apply transition-all duration-300;
+  @apply bg-white/90 backdrop-blur-sm;
+}
+
+/* Smooth Animations */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+/* Glassmorphism Effect */
+.glass-effect {
+  @apply bg-white/10 backdrop-blur-md border border-white/20;
+  @apply shadow-lg;
+}
+
 
