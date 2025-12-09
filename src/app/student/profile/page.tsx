@@ -5,6 +5,7 @@ import Header from "../../../../components/StudentHeader";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/storage";
+import { getSession } from "@/lib/auth";
 
 // Firebase initialization
 if (!firebase.apps.length) {
@@ -46,8 +47,18 @@ export default function StudentProfile() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const email = localStorage.getItem("loggedStudentEmail") || "";
-      setLoggedEmail(email);
+      // Use session system instead of old localStorage
+      const session = getSession("student");
+      
+      if (session) {
+        setLoggedEmail(session.email);
+        // Also set old localStorage items for backward compatibility
+        localStorage.setItem("loggedStudentEmail", session.email);
+        localStorage.setItem("loggedStudentName", session.name);
+      } else {
+        const email = localStorage.getItem("loggedStudentEmail") || "";
+        setLoggedEmail(email);
+      }
     }
   }, []);
   

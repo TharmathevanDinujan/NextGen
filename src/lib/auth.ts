@@ -19,7 +19,7 @@ function generateToken(): string {
 // Set session for a user
 export function setSession(role: UserRole, email: string, name: string, docId?: string): void {
   const token = generateToken();
-  const expiresAt = Date.now() + 7 * 24 * 60 * 60 * 1000; // 7 days
+  const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 1 day
 
   const sessionData: SessionData = {
     role,
@@ -126,8 +126,8 @@ export function getReloginUser(): { role: UserRole; email: string; name: string 
 
   try {
     const relogin = JSON.parse(reloginStr);
-    // Only show relogin prompt if it's recent (within 24 hours)
-    if (Date.now() - relogin.timestamp < 24 * 60 * 60 * 1000) {
+    // Only show relogin prompt if it's recent (within 1 hour)
+    if (Date.now() - relogin.timestamp < 60 * 60 * 1000) {
       return {
         role: relogin.role,
         email: relogin.email,

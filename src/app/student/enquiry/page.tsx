@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../../../components/StudentHeader";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
+import { getSession } from "@/lib/auth";
 
 // Firebase initialization
 if (!firebase.apps.length) {
@@ -35,9 +36,11 @@ export default function EnquiryForm() {
   const [popup, setPopup] = useState({ show: false, title: "", message: "" });
   const [loadingBtn, setLoadingBtn] = useState(false);
 
-  // ---------------- Auto-fill email from localStorage ----------------
+  // ---------------- Auto-fill email from session ----------------
   useEffect(() => {
-    const loggedEmail = localStorage.getItem("loggedStudentEmail") || "";
+    // Use session system instead of old localStorage
+    const session = getSession("student");
+    const loggedEmail = session ? session.email : (localStorage.getItem("loggedStudentEmail") || "");
     setFormData((prev) => ({ ...prev, email: loggedEmail }));
   }, []);
 

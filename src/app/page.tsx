@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import VisitorHeader from "../../components/VisitorHeader";
 import WhatsAppContact from "../../components/WhatsAppContact";
-import ReloginPrompt from "@/components/ReloginPrompt";
 import Image from "next/image";
 import Link from "next/link";
 import { FaFacebook, FaInstagram, FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
@@ -84,7 +83,6 @@ export default function VisitorHome() {
     <div className="font-[Poppins] bg-[#e0f2f1] text-[#333] overflow-x-hidden">
       <VisitorHeader />
       <WhatsAppContact />
-      <ReloginPrompt />
 
       {/* Hero Section */}
       <section

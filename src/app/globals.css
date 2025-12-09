@@ -8,8 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,7 +21,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
 }
 
 .rotate-y-180 {
@@ -37,18 +36,35 @@ body {
   @apply transition-all duration-300 ease-out;
   @apply hover:scale-105 hover:shadow-xl hover:shadow-teal-500/60;
   @apply active:scale-95;
-  @apply overflow-hidden;
+  position: relative;
+  display: inline-block;
+  overflow: hidden !important;
+  isolation: isolate;
+  z-index: 1;
+  border-radius: 0.75rem;
+  contain: layout style paint;
 }
 
 .btn-modern-primary::before {
   content: '';
-  @apply absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0;
-  @apply translate-x-[-100%] transition-transform duration-700;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.7s ease;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 0.75rem;
+  clip-path: inset(0);
 }
 
 .btn-modern-primary:hover::before {
-  @apply translate-x-[100%];
+  left: 100%;
 }
+
 
 .btn-modern-secondary {
   @apply relative px-6 py-3 font-semibold rounded-xl;
@@ -138,6 +154,34 @@ body {
   }
 }
 
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out forwards;
 }
@@ -160,5 +204,33 @@ body {
   @apply bg-white/10 backdrop-blur-md border border-white/20;
   @apply shadow-lg;
 }
+
+/* Dark Mode Styles */
+:root.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  @apply bg-gray-900 text-gray-100;
+}
+
+.dark .card-modern {
+  @apply bg-gray-800 border border-gray-700;
+}
+
+.dark .card-modern-gradient {
+  @apply bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700;
+}
+
+.dark .input-modern {
+  @apply bg-gray-800 border-gray-600 text-gray-100;
+  @apply focus:border-teal-400 focus:ring-teal-400/20;
+}
+
+.dark .btn-modern-secondary {
+  @apply border-gray-400 text-gray-200;
+  @apply hover:bg-gray-700 hover:text-white;
+}
+
 
 

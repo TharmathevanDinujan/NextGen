@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { clearSession, saveUserForRelogin, getSession } from "@/lib/auth";
+import { usePathname, useRouter } from "next/navigation";
+import { clearSession, saveUserForRelogin, getSession, clearAllSessions } from "@/lib/auth";
+import LogoutModal from "./LogoutModal";
 
 export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   const links = [
     { href: "/instructor/dashboard", label: "Dashboard" },
@@ -23,14 +27,37 @@ export default function Sidebar() {
     }
   };
 
+  // Handle browser back button
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      // Check if user is on an instructor page
+      if (pathname.startsWith("/instructor")) {
+        event.preventDefault();
+        setLogoutConfirmOpen(true);
+        // Push state again to prevent navigation
+        window.history.pushState(null, "", window.location.href);
+      }
+    };
+
+    // Push initial state
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [pathname]);
+
   const confirmLogout = () => {
+    setLogoutConfirmOpen(false);
     // Clear session and save user info for relogin prompt
     const session = getSession("instructor");
     if (session) {
       saveUserForRelogin("instructor", session.email, session.name);
-      clearSession("instructor");
     }
-    window.location.href = "/";
+    // Clear all sessions to prevent conflicts
+    clearAllSessions();
+    router.push("/");
   };
 
   return (
@@ -131,37 +158,13 @@ export default function Sidebar() {
         </div>
       </aside>
 
-      {/* Logout Confirmation Popup */}
-      {logoutConfirmOpen && (
-        <div className="fixed inset-0 flex justify-center items-center z-50">
-          <div
-            className="absolute inset-0 bg-black/50"
-            onClick={() => setLogoutConfirmOpen(false)}
-          ></div>
-          <div className="relative bg-white p-6 rounded-xl shadow-lg w-full max-w-sm z-10">
-            <h2 className="text-lg font-bold text-gray-800 mb-4 text-center">
-              Confirm Logout
-            </h2>
-            <p className="text-gray-600 mb-6 text-center">
-              Are you sure you want to logout?
-            </p>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={confirmLogout}
-                className="bg-teal-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-teal-700 transition"
-              >
-                Yes, Logout
-              </button>
-              <button
-                onClick={() => setLogoutConfirmOpen(false)}
-                className="bg-gray-300 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 transition"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Logout Confirmation Modal */}
+      <LogoutModal
+        isOpen={logoutConfirmOpen}
+        onConfirm={confirmLogout}
+        onCancel={() => setLogoutConfirmOpen(false)}
+        role="instructor"
+      />
     </>
   );
 }

@@ -71,7 +71,7 @@ export default function ReloginPrompt() {
           </button>
           <button
             onClick={handleCancel}
-            className="btn-modern-secondary w-full text-center"
+            className="w-full px-6 py-3 font-semibold rounded-xl border-2 border-gray-300 text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300"
           >
             Cancel
           </button>

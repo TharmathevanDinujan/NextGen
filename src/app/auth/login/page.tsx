@@ -10,8 +10,9 @@ import {
   getDocs,
 } from "firebase/firestore";
 import VisitorHeader from "../../../../components/VisitorHeader";
+import ReloginPrompt from "@/components/ReloginPrompt";
 import { useRouter, useSearchParams } from "next/navigation";
-import { setSession, clearReloginUser } from "@/lib/auth";
+import { setSession, clearReloginUser, clearAllSessions } from "@/lib/auth";
 
 // Firebase Config
 const firebaseConfig = {
@@ -95,6 +96,8 @@ function LoginContent() {
       // Admin hardcoded login
       if (role === "admin") {
         if (email === "admin@gmail.com" && password === "admin") {
+          // Clear all existing sessions before setting new one
+          clearAllSessions();
           // Set session token
           setSession("admin", email, "Admin");
           clearReloginUser(); // Clear relogin prompt
@@ -125,8 +128,13 @@ function LoginContent() {
         const name = (userData.fullname || userData.name || "User") as string;
 
         if (role === "student") {
+          // Clear all existing sessions before setting new one
+          clearAllSessions();
           // Set session token
           setSession("student", email, name, snapshot.docs[0].id);
+          // Also set old localStorage items for backward compatibility
+          localStorage.setItem("loggedStudentEmail", email);
+          localStorage.setItem("loggedStudentName", name);
           clearReloginUser(); // Clear relogin prompt
           
           const redirect = searchParams.get("redirect") || "/student/courses";
@@ -136,8 +144,13 @@ function LoginContent() {
             redirect
           );
         } else {
+          // Clear all existing sessions before setting new one
+          clearAllSessions();
           // Set session token for instructor
-          setSession("instructor", email, name, snapshot.docs[0].id);
+          const instructorDocId = snapshot.docs[0].id;
+          setSession("instructor", email, name, instructorDocId);
+          // Also set old localStorage items for backward compatibility
+          localStorage.setItem("instructorDocId", instructorDocId);
           clearReloginUser(); // Clear relogin prompt
           
           const redirect = searchParams.get("redirect") || "/instructor/dashboard";
@@ -167,6 +180,7 @@ function LoginContent() {
       <div className="w-full flex-shrink-0">
         <VisitorHeader />
       </div>
+      <ReloginPrompt />
 
       {/* Main content */}
       <div className="flex-1 flex justify-center items-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-teal-50 to-teal-100">

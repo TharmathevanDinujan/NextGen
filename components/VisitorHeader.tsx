@@ -65,18 +65,18 @@ export default function VisitorHeader() {
           ))}
 
           {/* Register & Login Buttons */}
-          <li>
+          <li className="relative z-10" style={{ overflow: 'hidden', borderRadius: '0.75rem' }}>
             <Link
               href="/auth/register"
-              className="btn-modern-primary px-4 py-2 text-base"
+              className="btn-modern-primary px-4 py-2 text-base inline-block"
             >
-              Register
+              <span className="relative z-10">Register</span>
             </Link>
           </li>
-          <li>
+          <li className="relative z-10">
             <Link
               href="/auth/login"
-              className="btn-modern-secondary px-4 py-2 text-base"
+              className="btn-modern-secondary px-4 py-2 text-base inline-block"
             >
               Login
             </Link>

@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { clearSession, saveUserForRelogin, getSession } from "@/lib/auth";
+import { clearSession, saveUserForRelogin, getSession, clearAllSessions } from "@/lib/auth";
+import LogoutModal from "./LogoutModal";
 
 export default function AdminHeader() {
   const pathname = usePathname();
@@ -30,14 +31,36 @@ export default function AdminHeader() {
     setLogoutConfirm(true);
   };
 
+  // Handle browser back button
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      // Check if user is on an admin page
+      if (pathname.startsWith("/admin")) {
+        event.preventDefault();
+        setLogoutConfirm(true);
+        // Push state again to prevent navigation
+        window.history.pushState(null, "", window.location.href);
+      }
+    };
+
+    // Push initial state
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [pathname]);
+
   const confirmLogout = () => {
     setLogoutConfirm(false);
     // Clear session and save user info for relogin prompt
     const session = getSession("admin");
     if (session) {
       saveUserForRelogin("admin", session.email, session.name);
-      clearSession("admin");
     }
+    // Clear all sessions to prevent conflicts
+    clearAllSessions();
     router.push("/"); // navigate to home page
   };
 
@@ -124,36 +147,12 @@ export default function AdminHeader() {
       )}
 
       {/* Logout Confirmation Modal */}
-      {logoutConfirm && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-            onClick={cancelLogout}
-          ></div>
-          <div className="relative bg-white rounded-xl w-full max-w-sm p-6 m-4 z-10">
-            <h3 className="text-xl font-bold mb-4 text-center text-gray-800">
-              ⚠️ Confirm Logout
-            </h3>
-            <p className="text-center mb-6 text-gray-600">
-              Are you sure you want to logout?
-            </p>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={confirmLogout}
-                className="bg-red-500 px-4 py-2 rounded-lg font-semibold text-white hover:bg-red-600 transition"
-              >
-                Yes, Logout
-              </button>
-              <button
-                onClick={cancelLogout}
-                className="bg-gray-300 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 transition"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <LogoutModal
+        isOpen={logoutConfirm}
+        onConfirm={confirmLogout}
+        onCancel={cancelLogout}
+        role="admin"
+      />
     </>
   );
 }

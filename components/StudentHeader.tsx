@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { clearSession, saveUserForRelogin, getSession } from "@/lib/auth";
+import { clearSession, saveUserForRelogin, getSession, clearAllSessions } from "@/lib/auth";
+import LogoutModal from "./LogoutModal";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -11,13 +12,36 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
+  // Handle browser back button
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      // Check if user is on a student page
+      if (pathname.startsWith("/student")) {
+        event.preventDefault();
+        setLogoutConfirm(true);
+        // Push state again to prevent navigation
+        window.history.pushState(null, "", window.location.href);
+      }
+    };
+
+    // Push initial state
+    window.history.pushState(null, "", window.location.href);
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [pathname]);
+
   const handleLogout = () => {
+    setLogoutConfirm(false);
     // Clear session and save user info for relogin prompt
     const session = getSession("student");
     if (session) {
       saveUserForRelogin("student", session.email, session.name);
-      clearSession("student");
     }
+    // Clear all sessions to prevent conflicts
+    clearAllSessions();
     router.push("/");
   };
 
@@ -151,36 +175,12 @@ export default function Header() {
       )}
 
       {/* Logout Confirmation Modal */}
-      {logoutConfirm && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-            onClick={() => setLogoutConfirm(false)}
-          ></div>
-          <div className="relative bg-white rounded-xl w-full max-w-sm p-6 m-4 z-10">
-            <h3 className="text-xl font-bold mb-4 text-center text-gray-800">
-              ⚠️ Confirm Logout
-            </h3>
-            <p className="text-center mb-6 text-gray-600">
-              Are you sure you want to logout?
-            </p>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 px-4 py-2 rounded-lg font-semibold text-white hover:bg-red-600 transition"
-              >
-                Yes, Logout
-              </button>
-              <button
-                onClick={() => setLogoutConfirm(false)}
-                className="bg-gray-300 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 transition"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <LogoutModal
+        isOpen={logoutConfirm}
+        onConfirm={handleLogout}
+        onCancel={() => setLogoutConfirm(false)}
+        role="student"
+      />
     </header>
   );
 }

@@ -5,6 +5,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/auth";
 import Header from "../../../../components/StudentHeader";
+import { getSession } from "@/lib/auth";
 
 interface Course {
   id: string;
@@ -62,15 +63,22 @@ export default function StudentCourses() {
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    const loggedEmail = localStorage.getItem("loggedStudentEmail");
-    const loggedName = localStorage.getItem("loggedStudentName");
-
-    if (!loggedEmail) {
+    // Use session system instead of old localStorage
+    const session = getSession("student");
+    
+    if (!session) {
       alert("You are not logged in!");
       window.location.href = "/auth/login";
       return;
     }
+    
+    const loggedEmail = session.email;
+    const loggedName = session.name;
     setStudentName(loggedName || loggedEmail);
+    
+    // Also set old localStorage items for backward compatibility with other parts
+    localStorage.setItem("loggedStudentEmail", loggedEmail);
+    localStorage.setItem("loggedStudentName", loggedName);
 
     const loadStudent = async () => {
       const snapshot = await db

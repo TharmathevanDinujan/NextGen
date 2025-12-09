@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "../../../../components/InstructerHeader";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
+import { getSession } from "@/lib/auth";
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
@@ -36,7 +37,19 @@ export default function InstructorProfile() {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const instructorDocId = localStorage.getItem("instructorDocId");
+      // Use session system instead of old localStorage
+      const session = getSession("instructor");
+      let instructorDocId: string | null = null;
+      
+      if (session && session.docId) {
+        instructorDocId = session.docId;
+        // Also set old localStorage items for backward compatibility
+        localStorage.setItem("instructorDocId", instructorDocId);
+      } else {
+        // Fallback to old localStorage
+        instructorDocId = localStorage.getItem("instructorDocId");
+      }
+      
       if (!instructorDocId) {
         alert("Please login first!");
         window.location.href = "/auth/login";
@@ -73,7 +86,9 @@ export default function InstructorProfile() {
 
   const handleProfileSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    const instructorDocId = localStorage.getItem("instructorDocId");
+    // Use session system instead of old localStorage
+    const session = getSession("instructor");
+    const instructorDocId = session?.docId || localStorage.getItem("instructorDocId");
     if (!instructorDocId) return;
 
     setSaving(true);
@@ -101,7 +116,9 @@ export default function InstructorProfile() {
   const closePicPopup = () => setPicPopupOpen(false);
 
   const saveProfilePic = async () => {
-    const instructorDocId = localStorage.getItem("instructorDocId");
+    // Use session system instead of old localStorage
+    const session = getSession("instructor");
+    const instructorDocId = session?.docId || localStorage.getItem("instructorDocId");
     if (!instructorDocId) return;
 
     const url = newPicUrl.trim();
