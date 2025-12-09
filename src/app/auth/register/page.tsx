@@ -133,7 +133,7 @@ const Register: React.FC = () => {
     <div className="font-[Poppins] bg-[#e0f2f1] text-[#333] min-h-screen flex flex-col relative">
       <VisitorHeader />
 
-      <div className="px-4 pt-10 pb-20 flex justify-center">
+      <div className="px-4 pt-24 pb-20 flex justify-center">
         <div className="bg-gradient-to-br from-teal-700 to-teal-900 rounded-xl shadow-lg p-8 w-full max-w-md relative z-10">
           <h2 className="text-white text-2xl font-bold mb-2 text-center">
             Create an Account
