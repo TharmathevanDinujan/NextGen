@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { clearSession, saveUserForRelogin, getSession } from "@/lib/auth";
 
 export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -23,9 +24,13 @@ export default function Sidebar() {
   };
 
   const confirmLogout = () => {
-    // Clear local storage and redirect
-    localStorage.removeItem("instructorDocId");
-    window.location.href = "/auth/login";
+    // Clear session and save user info for relogin prompt
+    const session = getSession("instructor");
+    if (session) {
+      saveUserForRelogin("instructor", session.email, session.name);
+      clearSession("instructor");
+    }
+    window.location.href = "/";
   };
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { initializeApp, getApps, getApp } from "firebase/app";
 import {
   getFirestore,
@@ -10,7 +10,8 @@ import {
   getDocs,
 } from "firebase/firestore";
 import VisitorHeader from "../../../../components/VisitorHeader";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { setSession, clearReloginUser } from "@/lib/auth";
 
 // Firebase Config
 const firebaseConfig = {
@@ -27,8 +28,9 @@ const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 
-export default function Login() {
+function LoginContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [role, setRole] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,6 +40,16 @@ export default function Login() {
     redirect?: string;
   } | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Check for redirect and role from URL params
+  useEffect(() => {
+    const urlRole = searchParams.get("role");
+    const redirect = searchParams.get("redirect");
+    
+    if (urlRole && ["admin", "student", "instructor"].includes(urlRole)) {
+      setRole(urlRole);
+    }
+  }, [searchParams]);
 
   // Prevent user from going back to login page
   useEffect(() => {
@@ -83,7 +95,12 @@ export default function Login() {
       // Admin hardcoded login
       if (role === "admin") {
         if (email === "admin@gmail.com" && password === "admin") {
-          showPopup("Welcome Admin", "Login successful!", "/admin/dashboard");
+          // Set session token
+          setSession("admin", email, "Admin");
+          clearReloginUser(); // Clear relogin prompt
+          
+          const redirect = searchParams.get("redirect") || "/admin/dashboard";
+          showPopup("Welcome Admin", "Login successful!", redirect);
         } else {
           showPopup("Error", "Invalid admin credentials!");
         }
@@ -108,19 +125,26 @@ export default function Login() {
         const name = (userData.fullname || userData.name || "User") as string;
 
         if (role === "student") {
-          localStorage.setItem("loggedStudentEmail", email);
-          localStorage.setItem("loggedStudentName", name);
+          // Set session token
+          setSession("student", email, name, snapshot.docs[0].id);
+          clearReloginUser(); // Clear relogin prompt
+          
+          const redirect = searchParams.get("redirect") || "/student/courses";
           showPopup(
             `Welcome ${name}`,
             "Login successful!",
-            "/student/courses"
+            redirect
           );
         } else {
-          localStorage.setItem("instructorDocId", snapshot.docs[0].id);
+          // Set session token for instructor
+          setSession("instructor", email, name, snapshot.docs[0].id);
+          clearReloginUser(); // Clear relogin prompt
+          
+          const redirect = searchParams.get("redirect") || "/instructor/dashboard";
           showPopup(
             `Welcome ${name}`,
             "Login successful!",
-            "/instructor/dashboard"
+            redirect
           );
         }
       }
@@ -355,5 +379,17 @@ export default function Login() {
         &copy; 2025 NextGen Institute. All Rights Reserved.
       </footer>
     </div>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }

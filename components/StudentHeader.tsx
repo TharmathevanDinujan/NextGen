@@ -2,11 +2,24 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { clearSession, saveUserForRelogin, getSession } from "@/lib/auth";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [logoutConfirm, setLogoutConfirm] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // Clear session and save user info for relogin prompt
+    const session = getSession("student");
+    if (session) {
+      saveUserForRelogin("student", session.email, session.name);
+      clearSession("student");
+    }
+    router.push("/");
+  };
 
   const links = [
     { href: "/student/courses", label: "Courses" },
@@ -30,18 +43,28 @@ export default function Header() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex gap-6 font-medium">
           {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`transition-colors relative hover:text-yellow-400 ${
-                pathname === link.href ? "text-yellow-400" : ""
-              }`}
-            >
-              {link.label}
-              {pathname === link.href && (
-                <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-yellow-400 rounded"></span>
-              )}
-            </Link>
+            link.href === "/auth/login" ? (
+              <button
+                key={link.href}
+                onClick={() => setLogoutConfirm(true)}
+                className="transition-colors relative hover:text-yellow-400"
+              >
+                {link.label}
+              </button>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`transition-colors relative hover:text-yellow-400 ${
+                  pathname === link.href ? "text-yellow-400" : ""
+                }`}
+              >
+                {link.label}
+                {pathname === link.href && (
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-yellow-400 rounded"></span>
+                )}
+              </Link>
+            )
           ))}
         </nav>
 
@@ -92,19 +115,29 @@ export default function Header() {
         </div>
         <nav className="flex flex-col p-4 gap-3">
           {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMobileOpen(false)}
-              className={`py-2 px-2 rounded transition-colors hover:bg-teal-700 relative ${
-                pathname === link.href ? "bg-teal-800" : ""
-              }`}
-            >
-              {link.label}
-              {pathname === link.href && (
-                <span className="absolute left-0 bottom-0 w-full h-0.5 bg-yellow-400 rounded"></span>
-              )}
-            </Link>
+            link.href === "/auth/login" ? (
+              <button
+                key={link.href}
+                onClick={() => { setLogoutConfirm(true); setMobileOpen(false); }}
+                className="py-2 px-2 rounded transition-colors hover:bg-teal-700 text-left"
+              >
+                {link.label}
+              </button>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className={`py-2 px-2 rounded transition-colors hover:bg-teal-700 relative ${
+                  pathname === link.href ? "bg-teal-800" : ""
+                }`}
+              >
+                {link.label}
+                {pathname === link.href && (
+                  <span className="absolute left-0 bottom-0 w-full h-0.5 bg-yellow-400 rounded"></span>
+                )}
+              </Link>
+            )
           ))}
         </nav>
       </div>
@@ -115,6 +148,38 @@ export default function Header() {
           className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
           onClick={() => setMobileOpen(false)}
         ></div>
+      )}
+
+      {/* Logout Confirmation Modal */}
+      {logoutConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={() => setLogoutConfirm(false)}
+          ></div>
+          <div className="relative bg-white rounded-xl w-full max-w-sm p-6 m-4 z-10">
+            <h3 className="text-xl font-bold mb-4 text-center text-gray-800">
+              ⚠️ Confirm Logout
+            </h3>
+            <p className="text-center mb-6 text-gray-600">
+              Are you sure you want to logout?
+            </p>
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 px-4 py-2 rounded-lg font-semibold text-white hover:bg-red-600 transition"
+              >
+                Yes, Logout
+              </button>
+              <button
+                onClick={() => setLogoutConfirm(false)}
+                className="bg-gray-300 px-4 py-2 rounded-lg font-semibold hover:bg-gray-400 transition"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </header>
   );

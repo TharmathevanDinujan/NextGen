@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { clearSession, saveUserForRelogin, getSession } from "@/lib/auth";
 
 export default function AdminHeader() {
   const pathname = usePathname();
@@ -31,7 +32,13 @@ export default function AdminHeader() {
 
   const confirmLogout = () => {
     setLogoutConfirm(false);
-    router.push("/auth/login"); // navigate to login page
+    // Clear session and save user info for relogin prompt
+    const session = getSession("admin");
+    if (session) {
+      saveUserForRelogin("admin", session.email, session.name);
+      clearSession("admin");
+    }
+    router.push("/"); // navigate to home page
   };
 
   const cancelLogout = () => {
