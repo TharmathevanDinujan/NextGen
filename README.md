@@ -59,17 +59,15 @@
 ## 📸 Screenshots
 
 <div align="center">
-  <img src="./public/scr1.png" alt="Dashboard Screenshot 1" width="800"/>
+  <img src="./public/scr1.png" alt="Admin Dashboard" width="800"/>
   <br/><br/>
-  <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-    <img src="./public/scr2.png" alt="Mobile View Screenshot" width="45%"/>
-    <img src="./public/scr3.png" alt="Course Page Screenshot" width="45%"/>
-  </div>
-  <br/>
-  <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-    <img src="./public/scr4.png" alt="Login Screenshot" width="45%"/>
-    <img src="./public/scr5.png" alt="Profile Screenshot" width="45%"/>
-  </div>
+  <img src="./public/scr2.png" alt="Student Mobile View" width="800"/>
+  <br/><br/>
+  <img src="./public/scr3.png" alt="Course Management" width="800"/>
+  <br/><br/>
+  <img src="./public/scr4.png" alt="Login Page" width="800"/>
+  <br/><br/>
+  <img src="./public/scr5.png" alt="User Profile" width="800"/>
 </div>
 
 ## 🚀 Getting Started
