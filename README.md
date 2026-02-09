@@ -61,8 +61,6 @@
 <div align="center">
   <img src="./public/scr1.png" alt="Admin Dashboard" width="800"/>
   <br/><br/>
-  <img src="./public/scr2.png" alt="Student Mobile View" width="800"/>
-  <br/><br/>
   <img src="./public/scr3.png" alt="Course Management" width="800"/>
   <br/><br/>
   <img src="./public/scr4.png" alt="Login Page" width="800"/>
