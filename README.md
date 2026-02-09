@@ -86,7 +86,7 @@ Follow these steps to run the project locally.
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/your-username/nextgen-institute.git
+    git clone https://github.com/TharmathevanDinujan/NextGen.git
     cd nextgen-institute
     ```
 
@@ -123,5 +123,5 @@ Follow these steps to run the project locally.
 ---
 
 <p align="center">
-  Developed with ❤️ by <a href="https://nextgen-new.netlify.app/">NextGen Institute Team</a>
+  Developed with ❤️ by <a href="https://nextgen-new.netlify.app/">D_I_N_U</a>
 </p>
