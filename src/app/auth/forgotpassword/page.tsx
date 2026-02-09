@@ -18,13 +18,12 @@ import VisitorHeader from "../../../../components/VisitorHeader";
 
 // Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
-  authDomain: "nextgen-9de89.firebaseapp.com",
-  projectId: "nextgen-9de89",
-  storageBucket: "nextgen-9de89.firebasestorage.app",
-  messagingSenderId: "446092918649",
-  appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
-
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase (avoid duplicate initialization)
@@ -92,14 +91,14 @@ export default function ForgotPassword() {
       });
 
       await emailjs.send(
-        "service_kw1ef57",
-        "template_idxx62d",
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
         {
           to_name: snapshot.docs[0].data().fullname || "Student",
           otp_code: otpCode,
           to_email: email,
         },
-        "Ge4n4Q9JeKuSNSEUP"
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
       );
 
       setStatus("OTP sent! Enter it below.");
@@ -246,8 +245,8 @@ export default function ForgotPassword() {
               otpSent && !otpVerified
                 ? handleVerifyOtp
                 : !otpSent
-                ? handleSendOtp
-                : handleSetNewPassword
+                  ? handleSendOtp
+                  : handleSetNewPassword
             }
             className="space-y-4"
           >
@@ -290,13 +289,12 @@ export default function ForgotPassword() {
               {/* Live Email Status */}
               {email && (
                 <p
-                  className={`mt-2 text-sm flex items-center gap-1 ${
-                    emailExists === null
+                  className={`mt-2 text-sm flex items-center gap-1 ${emailExists === null
                       ? "text-yellow-300"
                       : emailExists
-                      ? "text-green-300"
-                      : "text-red-300"
-                  }`}
+                        ? "text-green-300"
+                        : "text-red-300"
+                    }`}
                 >
                   {emailExists === null ? (
                     <>
@@ -406,11 +404,10 @@ export default function ForgotPassword() {
           </form>
 
           {status && (
-            <div className={`mt-4 p-4 rounded-xl text-center ${
-              status.includes("success") || status.includes("verified") || otpVerified
+            <div className={`mt-4 p-4 rounded-xl text-center ${status.includes("success") || status.includes("verified") || otpVerified
                 ? "bg-green-500/20 text-green-200 border border-green-400/30"
                 : "bg-red-500/20 text-red-200 border border-red-400/30"
-            }`}>
+              }`}>
               <p className="font-medium">{status}</p>
             </div>
           )}

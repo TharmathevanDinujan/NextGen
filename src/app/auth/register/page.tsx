@@ -15,13 +15,12 @@ import VisitorHeader from "../../../../components/VisitorHeader";
 
 // Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
-  authDomain: "nextgen-9de89.firebaseapp.com",
-  projectId: "nextgen-9de89",
-  storageBucket: "nextgen-9de89.firebasestorage.app",
-  messagingSenderId: "446092918649",
-  appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
-
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
@@ -350,11 +349,10 @@ const Register: React.FC = () => {
             <button
               type="submit"
               disabled={emailExists}
-              className={`w-full font-bold py-3 rounded-xl transition-all duration-300 btn-modern-icon ${
-                emailExists
+              className={`w-full font-bold py-3 rounded-xl transition-all duration-300 btn-modern-icon ${emailExists
                   ? "bg-gray-400 cursor-not-allowed text-white"
                   : "btn-modern-primary bg-white text-teal-900 hover:bg-gradient-to-r hover:from-teal-100 hover:to-cyan-100 hover:shadow-lg"
-              }`}
+                }`}
             >
               <span>Register</span>
               <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
