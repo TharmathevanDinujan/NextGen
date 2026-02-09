@@ -52,30 +52,29 @@ export default function StudentCourses() {
 
   useEffect(() => {
     const firebaseConfig = {
-      apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
-      authDomain: "nextgen-9de89.firebaseapp.com",
-      projectId: "nextgen-9de89",
-      storageBucket: "nextgen-9de89.firebasestorage.app",
-      messagingSenderId: "446092918649",
-      appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
-    
+      apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+      authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
     };
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
     // Use session system instead of old localStorage
     const session = getSession("student");
-    
+
     if (!session) {
       alert("You are not logged in!");
       window.location.href = "/auth/login";
       return;
     }
-    
+
     const loggedEmail = session.email;
     const loggedName = session.name;
     setStudentName(loggedName || loggedEmail);
-    
+
     // Also set old localStorage items for backward compatibility with other parts
     localStorage.setItem("loggedStudentEmail", loggedEmail);
     localStorage.setItem("loggedStudentName", loggedName);
@@ -301,22 +300,22 @@ export default function StudentCourses() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-2 md:gap-x-3 lg:gap-x-0 gap-y-10 md:gap-y-6 place-items-center">
           {loadingCourses
             ? Array.from({ length: 8 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="w-[90%] sm:w-[80%] md:w-[90%] lg:w-[85%] h-64 bg-white rounded-lg shadow-md animate-pulse flex flex-col"
-                >
-                  <div className="h-40 bg-gray-300 w-full rounded-t-lg"></div>
-                  <div className="p-3 flex-1 space-y-2">
-                    <div className="h-4 bg-gray-300 w-3/4 rounded"></div>
-                    <div className="h-3 bg-gray-200 w-1/2 rounded"></div>
-                  </div>
+              <div
+                key={i}
+                className="w-[90%] sm:w-[80%] md:w-[90%] lg:w-[85%] h-64 bg-white rounded-lg shadow-md animate-pulse flex flex-col"
+              >
+                <div className="h-40 bg-gray-300 w-full rounded-t-lg"></div>
+                <div className="p-3 flex-1 space-y-2">
+                  <div className="h-4 bg-gray-300 w-3/4 rounded"></div>
+                  <div className="h-3 bg-gray-200 w-1/2 rounded"></div>
                 </div>
-              ))
+              </div>
+            ))
             : filteredCourses.length === 0 && (
-                <p className="col-span-full text-center text-gray-600">
-                  No courses found.
-                </p>
-              )}
+              <p className="col-span-full text-center text-gray-600">
+                No courses found.
+              </p>
+            )}
 
           {!loadingCourses &&
             filteredCourses.map((course) => (

@@ -8,12 +8,12 @@ import { JSX } from "react/jsx-runtime";
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
-    authDomain: "nextgen-9de89.firebaseapp.com",
-    projectId: "nextgen-9de89",
-    storageBucket: "nextgen-9de89.firebasestorage.app",
-    messagingSenderId: "446092918649",
-    appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   });
 }
 
@@ -34,8 +34,8 @@ export default function NoticesPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const monthNames = [
-    "January","February","March","April","May","June",
-    "July","August","September","October","November","December"
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
   ];
 
   // Load announcements
@@ -56,11 +56,11 @@ export default function NoticesPage() {
         let dateStr = "-";
         if (ann.eventDate instanceof firebase.firestore.Timestamp) {
           const d = ann.eventDate.toDate();
-          dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+          dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
         } else if (typeof ann.eventDate === "string") {
           dateStr = ann.eventDate;
         }
-        if(dateStr !== "-") eventDates.push(dateStr);
+        if (dateStr !== "-") eventDates.push(dateStr);
       });
 
       setAnnouncements(data);
@@ -89,14 +89,13 @@ export default function NoticesPage() {
     }
 
     for (let d = 1; d <= lastDate; d++) {
-      const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
       const isEvent = events.includes(dateStr);
       days.push(
         <div
           key={d}
-          className={`calendar-day flex justify-center items-center p-3 rounded-md cursor-pointer transition-transform duration-200 ${
-            isEvent ? "bg-red-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-teal-600 hover:text-white transform hover:scale-110"
-          }`}
+          className={`calendar-day flex justify-center items-center p-3 rounded-md cursor-pointer transition-transform duration-200 ${isEvent ? "bg-red-500 text-white" : "bg-gray-100 text-gray-700 hover:bg-teal-600 hover:text-white transform hover:scale-110"
+            }`}
         >
           {d}
         </div>
@@ -145,7 +144,7 @@ export default function NoticesPage() {
                   let eventDateStr = "-";
                   if (ann.eventDate instanceof firebase.firestore.Timestamp) {
                     const d = ann.eventDate.toDate();
-                    eventDateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+                    eventDateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
                   } else if (typeof ann.eventDate === "string") {
                     eventDateStr = ann.eventDate;
                   }
@@ -190,7 +189,7 @@ export default function NoticesPage() {
 
               {/* Weekdays */}
               <div className="grid grid-cols-7 text-center font-semibold text-teal-900 mb-2">
-                {["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((day) => (
+                {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
                   <div key={day}>{day}</div>
                 ))}
               </div>

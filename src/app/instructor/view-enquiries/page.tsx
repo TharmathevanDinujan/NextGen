@@ -23,13 +23,12 @@ export default function ViewEnquiries() {
   useEffect(() => {
     if (!firebase.apps.length) {
       firebase.initializeApp({
-        apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
-  authDomain: "nextgen-9de89.firebaseapp.com",
-  projectId: "nextgen-9de89",
-  storageBucket: "nextgen-9de89.firebasestorage.app",
-  messagingSenderId: "446092918649",
-  appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
-
+        apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+        authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
       });
     }
     const db = firebase.firestore();
@@ -109,11 +108,10 @@ export default function ViewEnquiries() {
             <button
               key={type}
               onClick={() => setFilter(type as "all" | "student" | "visitor")}
-              className={`px-3 md:px-4 py-2 md:py-2 rounded-lg font-semibold text-sm md:text-base transition-colors ${
-                filter === type
+              className={`px-3 md:px-4 py-2 md:py-2 rounded-lg font-semibold text-sm md:text-base transition-colors ${filter === type
                   ? "bg-teal-900 text-white"
                   : "bg-teal-600 text-white hover:bg-teal-700"
-              }`}
+                }`}
             >
               {type.charAt(0).toUpperCase() + type.slice(1)}
             </button>
@@ -142,11 +140,10 @@ export default function ViewEnquiries() {
               return (
                 <div
                   key={enquiry.id}
-                  className={`bg-white p-4 md:p-5 rounded-xl shadow-lg transform transition-all duration-400 ${
-                    isNewEnquiry(enquiry.timestamp)
+                  className={`bg-white p-4 md:p-5 rounded-xl shadow-lg transform transition-all duration-400 ${isNewEnquiry(enquiry.timestamp)
                       ? "border-l-4 border-teal-600 "
                       : ""
-                  }`}
+                    }`}
                 >
                   <h3 className="text-teal-800 font-semibold mb-1 md:mb-2 text-sm md:text-base">
                     {enquiry.subject}

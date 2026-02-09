@@ -7,13 +7,12 @@ import "firebase/compat/firestore";
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
-  authDomain: "nextgen-9de89.firebaseapp.com",
-  projectId: "nextgen-9de89",
-  storageBucket: "nextgen-9de89.firebasestorage.app",
-  messagingSenderId: "446092918649",
-  appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
-
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   });
 }
 
@@ -109,9 +108,8 @@ export default function Announcements() {
 
       {/* Main Content */}
       <main
-        className={`flex-1 p-4 md:p-6 md:ml-64 transition-all duration-300 ${
-          modalOpen ? "blur-sm pointer-events-none select-none" : ""
-        }`}
+        className={`flex-1 p-4 md:p-6 md:ml-64 transition-all duration-300 ${modalOpen ? "blur-sm pointer-events-none select-none" : ""
+          }`}
       >
         <header className="bg-white rounded-lg shadow-md p-5 mb-6">
           <h1 className="text-xl md:text-2xl font-bold text-gray-800 mb-1">
@@ -135,24 +133,23 @@ export default function Announcements() {
           {loading
             ? renderSkeleton()
             : announcements.map((ann) => (
-                <div
-                  key={ann.id}
-                  className="bg-white p-5 rounded-xl shadow-md relative transition-transform hover:-translate-y-1 hover:shadow-lg"
-                >
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">{ann.title}</h3>
-                  <p className="text-gray-600 mb-2">{ann.message}</p>
-                  <p className="text-gray-500 text-sm mb-2">
-                    <strong>Event Date:</strong> {ann.eventDate || "N/A"}
-                  </p>
-                  <span
-                    className={`absolute top-3 right-3 px-3 py-1 text-xs font-bold rounded-full text-white ${
-                      ann.status === "draft" ? "bg-yellow-500" : "bg-green-600"
+              <div
+                key={ann.id}
+                className="bg-white p-5 rounded-xl shadow-md relative transition-transform hover:-translate-y-1 hover:shadow-lg"
+              >
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">{ann.title}</h3>
+                <p className="text-gray-600 mb-2">{ann.message}</p>
+                <p className="text-gray-500 text-sm mb-2">
+                  <strong>Event Date:</strong> {ann.eventDate || "N/A"}
+                </p>
+                <span
+                  className={`absolute top-3 right-3 px-3 py-1 text-xs font-bold rounded-full text-white ${ann.status === "draft" ? "bg-yellow-500" : "bg-green-600"
                     }`}
-                  >
-                    {ann.status || "Published"}
-                  </span>
-                </div>
-              ))}
+                >
+                  {ann.status || "Published"}
+                </span>
+              </div>
+            ))}
         </div>
       </main>
 

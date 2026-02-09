@@ -8,13 +8,12 @@ import { getSession } from "@/lib/auth";
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
-    authDomain: "nextgen-9de89.firebaseapp.com",
-    projectId: "nextgen-9de89",
-    storageBucket: "nextgen-9de89.firebasestorage.app",
-    messagingSenderId: "446092918649",
-    appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
-  
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   });
 }
 
@@ -40,7 +39,7 @@ export default function InstructorProfile() {
       // Use session system instead of old localStorage
       const session = getSession("instructor");
       let instructorDocId: string | null = null;
-      
+
       if (session && session.docId) {
         instructorDocId = session.docId;
         // Also set old localStorage items for backward compatibility
@@ -49,7 +48,7 @@ export default function InstructorProfile() {
         // Fallback to old localStorage
         instructorDocId = localStorage.getItem("instructorDocId");
       }
-      
+
       if (!instructorDocId) {
         alert("Please login first!");
         window.location.href = "/auth/login";
@@ -144,9 +143,8 @@ export default function InstructorProfile() {
       <main className="flex-1 p-4 md:p-6 md:ml-64 transition-all duration-300 relative">
         {/* Notification Popup */}
         {notification && (
-          <div className={`fixed top-4 right-4 px-4 py-3 rounded shadow-lg z-50 text-white font-semibold ${
-            notification.type === "success" ? "bg-green-600" : "bg-red-600"
-          }`}>
+          <div className={`fixed top-4 right-4 px-4 py-3 rounded shadow-lg z-50 text-white font-semibold ${notification.type === "success" ? "bg-green-600" : "bg-red-600"
+            }`}>
             {notification.message}
           </div>
         )}

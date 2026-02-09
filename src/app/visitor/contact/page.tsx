@@ -7,13 +7,12 @@ import "firebase/compat/firestore";
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
-  authDomain: "nextgen-9de89.firebaseapp.com",
-  projectId: "nextgen-9de89",
-  storageBucket: "nextgen-9de89.firebasestorage.app",
-  messagingSenderId: "446092918649",
-  appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
-
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   });
 }
 
@@ -143,7 +142,7 @@ export default function ContactPage() {
               {/* Google Map */}
               <div className="w-full h-64 rounded-xl overflow-hidden shadow-lg">
                 <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4050.7711528817117!2d80.01171167511862!3d9.682200878422302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3afe5408bd5dacd5%3A0x37fefd389fe5cce9!2z4K6v4K6-4K604K-N4K6q4K-N4K6q4K6-4K6j4K6u4K-NIOCuh-CuqOCvjeCupOCvgeCuleCvjSDgrpXgrrLgr43grrLgr4LgrrDgrr8gfCBKYWZmbmEgSGluZHUgQ29sbGVnZQ!5e1!3m2!1sen!2slk!4v1759910039743!5m2!1sen!2slk"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4050.7711528817117!2d80.01171167511862!3d9.682200878422302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3afe5408bd5dacd5%3A0x37fefd389fe5cce9!2z4K6v4K6-4K604K-N4K6q4K-N4K6q4K6-4K6j4K6u4K-NIOCuh-CuqOCvjeCupOCvgeCuleCvjSDgrpXgrrLgr43grrLgr4LgrrDgrr8gfCBKYWZmbmEgSGluZHUgQ29sbGVnZQ!5e1!3m2!1sen!2slk!4v1759910039743!5m2!1sen!2slk"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}

@@ -7,13 +7,12 @@ import Header from "../../../../components/AdminHeader"; // your header componen
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
-  authDomain: "nextgen-9de89.firebaseapp.com",
-  projectId: "nextgen-9de89",
-  storageBucket: "nextgen-9de89.firebasestorage.app",
-  messagingSenderId: "446092918649",
-  appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
-
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   });
 }
 
@@ -164,11 +163,10 @@ export default function Announcements() {
             {announcements.map((ann) => (
               <div
                 key={ann.id}
-                className={`bg-white p-5 rounded-xl shadow-md flex flex-col md:flex-row justify-between items-start md:items-center transition transform hover:-translate-y-1 hover:shadow-lg border-l-4 ${
-                  ann.status === "Published"
+                className={`bg-white p-5 rounded-xl shadow-md flex flex-col md:flex-row justify-between items-start md:items-center transition transform hover:-translate-y-1 hover:shadow-lg border-l-4 ${ann.status === "Published"
                     ? "border-[#009688]"
                     : "border-[#f39c12]"
-                }`}
+                  }`}
               >
                 <div className="mb-3 md:mb-0">
                   <h3 className="text-lg font-semibold text-gray-800 mb-1">
@@ -184,9 +182,8 @@ export default function Announcements() {
                   <button
                     onClick={() => toggleStatus(ann.id)}
                     disabled={loadingStatusId === ann.id}
-                    className={`flex items-center justify-center gap-1 bg-[#009688] hover:bg-[#00796b] text-white px-3 py-1 rounded-md text-sm font-semibold transition ${
-                      loadingStatusId === ann.id ? "cursor-wait" : ""
-                    }`}
+                    className={`flex items-center justify-center gap-1 bg-[#009688] hover:bg-[#00796b] text-white px-3 py-1 rounded-md text-sm font-semibold transition ${loadingStatusId === ann.id ? "cursor-wait" : ""
+                      }`}
                   >
                     {loadingStatusId === ann.id ? (
                       <div className="w-4 h-4 border-2 border-t-2 border-white rounded-full animate-spin"></div>

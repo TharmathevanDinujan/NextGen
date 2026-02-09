@@ -7,12 +7,12 @@ import "firebase/compat/firestore";
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
-    authDomain: "nextgen-9de89.firebaseapp.com",
-    projectId: "nextgen-9de89",
-    storageBucket: "nextgen-9de89.firebasestorage.app",
-    messagingSenderId: "446092918649",
-    appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   });
 }
 
@@ -61,9 +61,9 @@ export default function AdminDashboard() {
       // Load courses
       const coursesSnapshot = await db.collection("courses").get();
       const totalCourses = coursesSnapshot.size;
-      const courses = coursesSnapshot.docs.map(doc => ({ 
-        id: doc.id, 
-        ...doc.data() 
+      const courses = coursesSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
       } as { id: string; location?: string; courseName?: string; category?: string; courseFee?: string | number }));
 
       // Load instructors
@@ -88,21 +88,21 @@ export default function AdminDashboard() {
         const allVisitorEnquiries = await db.collection("visitorinquiries").get();
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-        
+
         const recentStudent = allStudentEnquiries.docs.filter(doc => {
           const timestamp = doc.data().timestamp;
           if (!timestamp) return false;
           const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
           return date >= sevenDaysAgo;
         });
-        
+
         const recentVisitor = allVisitorEnquiries.docs.filter(doc => {
           const timestamp = doc.data().timestamp;
           if (!timestamp) return false;
           const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
           return date >= sevenDaysAgo;
         });
-        
+
         newEnquiries = recentStudent.length + recentVisitor.length;
       }
 
@@ -123,7 +123,7 @@ export default function AdminDashboard() {
         for (const enrolledCourse of myCoursesSnapshot.docs) {
           const courseId = enrolledCourse.data().courseId;
           const course = courses.find(c => c.id === courseId);
-          
+
           if (course) {
             // Branch enrollments
             const location = course.location || "Unknown";
@@ -174,7 +174,7 @@ export default function AdminDashboard() {
     if (sessionsCtx) {
       const branchLabels = Object.keys(data.branchEnrollments);
       const branchData = Object.values(data.branchEnrollments);
-      
+
       if (branchLabels.length > 0) {
         createChart(sessionsCtx, {
           type: "doughnut",
@@ -206,11 +206,11 @@ export default function AdminDashboard() {
       const sortedCourses = Object.entries(data.courseEnrollments)
         .sort(([, a], [, b]) => b - a)
         .slice(0, 5);
-      
+
       if (sortedCourses.length > 0) {
         const courseLabels = sortedCourses.map(([name]) => name.length > 15 ? name.substring(0, 15) + "..." : name);
         const courseData = sortedCourses.map(([, count]) => count);
-        
+
         createChart(salesCtx, {
           type: "bar",
           data: {
@@ -243,7 +243,7 @@ export default function AdminDashboard() {
     if (deviceCtx) {
       const categoryLabels = Object.keys(data.categoryDistribution);
       const categoryData = Object.values(data.categoryDistribution);
-      
+
       if (categoryLabels.length > 0) {
         createChart(deviceCtx, {
           type: "bar",
@@ -290,7 +290,7 @@ export default function AdminDashboard() {
 
         {/* Cards */}
         <section className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"> 
+          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h3 className="font-semibold text-gray-600 mb-2">Total Students</h3>
             {loading ? (
               <div className="h-10 bg-gray-200 rounded animate-pulse mb-2"></div>
@@ -301,7 +301,7 @@ export default function AdminDashboard() {
               </>
             )}
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"> 
+          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h3 className="font-semibold text-gray-600 mb-2">Active Courses</h3>
             {loading ? (
               <div className="h-10 bg-gray-200 rounded animate-pulse mb-2"></div>
@@ -312,7 +312,7 @@ export default function AdminDashboard() {
               </>
             )}
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"> 
+          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h3 className="font-semibold text-gray-600 mb-2">New Enquiries</h3>
             {loading ? (
               <div className="h-10 bg-gray-200 rounded animate-pulse mb-2"></div>
@@ -323,7 +323,7 @@ export default function AdminDashboard() {
               </>
             )}
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"> 
+          <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h3 className="font-semibold text-gray-600 mb-2">Total Revenue</h3>
             {loading ? (
               <div className="h-10 bg-gray-200 rounded animate-pulse mb-2"></div>

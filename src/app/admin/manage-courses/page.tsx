@@ -7,13 +7,12 @@ import Header from "../../../../components/AdminHeader"; // ✅ Header component
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
-    apiKey: "AIzaSyA2wwTdPSgNjcyoxjPDU_00ceGaU882XC8",
-  authDomain: "nextgen-9de89.firebaseapp.com",
-  projectId: "nextgen-9de89",
-  storageBucket: "nextgen-9de89.firebasestorage.app",
-  messagingSenderId: "446092918649",
-  appId: "1:446092918649:web:4c83d7349c62e33cb279a8"
-
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
   });
 }
 
@@ -151,68 +150,68 @@ export default function ManageCourses() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
           {loading
             ? Array(4)
-                .fill(0)
-                .map((_, i) => (
-                  <div
-                    key={i}
-                    className="bg-white rounded-xl shadow-md p-5 animate-pulse"
-                  >
-                    <div className="flex items-center mb-3 space-x-4">
-                      <div className="w-20 h-20 bg-gray-300 rounded-lg"></div>
-                      <div className="flex-1 space-y-2">
-                        <div className="h-4 bg-gray-300 rounded w-3/4"></div>
-                        <div className="h-3 bg-gray-200 rounded w-full"></div>
-                        <div className="h-3 bg-gray-200 rounded w-2/3"></div>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <div className="h-8 bg-gray-300 rounded w-20"></div>
-                      <div className="h-8 bg-gray-300 rounded w-20"></div>
-                    </div>
-                  </div>
-                ))
-            : courses.map((course) => (
+              .fill(0)
+              .map((_, i) => (
                 <div
-                  key={course.id}
-                  className="bg-white rounded-xl shadow-md p-5 flex flex-col md:flex-row justify-between items-start md:items-center transition transform hover:-translate-y-1 hover:shadow-lg w-full"
+                  key={i}
+                  className="bg-white rounded-xl shadow-md p-5 animate-pulse"
                 >
-                  <div className="flex items-center mb-3 md:mb-0 w-full md:w-auto">
-                    <img
-                      src={course.imageUrl}
-                      alt="course"
-                      className="w-20 h-20 rounded-lg object-cover mr-4"
-                    />
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-800">
-                        {course.courseName}
-                      </h3>
-                      <p className="text-gray-500 text-sm">
-                        Instructor: {course.instructor} | Fee: LKR{" "}
-                        {course.courseFee} | Duration: {course.duration} |
-                        Location: {course.location}
-                      </p>
-                      <p className="text-gray-500 text-sm">
-                        Category: {course.category} | University:{" "}
-                        {course.university}
-                      </p>
+                  <div className="flex items-center mb-3 space-x-4">
+                    <div className="w-20 h-20 bg-gray-300 rounded-lg"></div>
+                    <div className="flex-1 space-y-2">
+                      <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                      <div className="h-3 bg-gray-200 rounded w-full"></div>
+                      <div className="h-3 bg-gray-200 rounded w-2/3"></div>
                     </div>
                   </div>
-                  <div className="flex gap-2 w-full md:w-auto">
-                    <button
-                      onClick={() => openModal(course)}
-                      className="bg-green-500 text-white px-3 py-1 rounded-lg font-semibold hover:bg-green-600 transform hover:scale-105 transition"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => setDeleteConfirm(course.id || null)}
-                      className="bg-red-500 text-white px-3 py-1 rounded-lg font-semibold hover:bg-red-600 transform hover:scale-105 transition"
-                    >
-                      Delete
-                    </button>
+                  <div className="flex gap-2">
+                    <div className="h-8 bg-gray-300 rounded w-20"></div>
+                    <div className="h-8 bg-gray-300 rounded w-20"></div>
                   </div>
                 </div>
-              ))}
+              ))
+            : courses.map((course) => (
+              <div
+                key={course.id}
+                className="bg-white rounded-xl shadow-md p-5 flex flex-col md:flex-row justify-between items-start md:items-center transition transform hover:-translate-y-1 hover:shadow-lg w-full"
+              >
+                <div className="flex items-center mb-3 md:mb-0 w-full md:w-auto">
+                  <img
+                    src={course.imageUrl}
+                    alt="course"
+                    className="w-20 h-20 rounded-lg object-cover mr-4"
+                  />
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-800">
+                      {course.courseName}
+                    </h3>
+                    <p className="text-gray-500 text-sm">
+                      Instructor: {course.instructor} | Fee: LKR{" "}
+                      {course.courseFee} | Duration: {course.duration} |
+                      Location: {course.location}
+                    </p>
+                    <p className="text-gray-500 text-sm">
+                      Category: {course.category} | University:{" "}
+                      {course.university}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-2 w-full md:w-auto">
+                  <button
+                    onClick={() => openModal(course)}
+                    className="bg-green-500 text-white px-3 py-1 rounded-lg font-semibold hover:bg-green-600 transform hover:scale-105 transition"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => setDeleteConfirm(course.id || null)}
+                    className="bg-red-500 text-white px-3 py-1 rounded-lg font-semibold hover:bg-red-600 transform hover:scale-105 transition"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
         </div>
       </main>
 
